@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="pxColoredElements">#d14b4a</color>
+    <color name="pxTextMain">#ffffff</color>
+    <color name="pxTextLight">#afafaf</color>
+    <color name="pxBorder">#1f1f1f</color>
+    <color name="pxBackground">#2a2a2a</color>
+    <color name="pxWhiteElements">#373737</color>
+    <color name="pxBlack">#000000</color>
+
+</resources>

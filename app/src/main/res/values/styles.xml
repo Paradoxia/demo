@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="PxTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/pxBlack</item>
+        <item name="colorPrimaryDark">@color/pxTextLight</item>
+        <item name="colorAccent">@color/pxColoredElements</item>
+        <item name="cardBackgroundColor">@color/pxColoredElements</item>
+        <item name="fontFamily">@font/quicksand_medium</item>
+    </style>
+
+    <style name="PxTheme.MediumHeaderText" parent="PxTheme">
+        <item name="android:textSize">@dimen/px_medium_font_size</item>
+        <item name="android:textColor">@color/pxTextMain</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
+    </style>
+
+    <style name="PxTheme.SmallHeaderText" parent="PxTheme">
+        <item name="android:textSize">@dimen/px_small_font_size</item>
+        <item name="android:textColor">@color/pxTextMain</item>
+        <item name="android:capitalize">words</item>
+        <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
+    </style>
+
+    <style name="PxTheme.SvgIcon" parent="PxTheme">
+        <item name="android:layout_width">@dimen/px_svg_icon_width</item>
+        <item name="android:layout_height">@dimen/px_svg_icon_height</item>
+        <item name="android:tint">@color/pxTextMain</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+
+
+
+</resources>

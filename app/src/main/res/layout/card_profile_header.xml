@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cardProfileHeader"
+            type="se.paradoxia.pxdemo.home.HomeViewModel.CardProfilerHeader" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/PxTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/pxWhiteElements">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="306dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="-40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/logo" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:weightSum="2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.521">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_sweden" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_uk" />
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textView"
+                    style="@style/PxTheme.MediumHeaderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@{cardProfileHeader.profileName}"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintVertical_bias="0.061"
+                    tools:text="Mikael Olsson" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="204dp"
+                    android:layout_height="200dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    app:circleImageRes="@{cardProfileHeader.profileImageRes}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/profile_image" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textView2"
+                    style="@style/PxTheme.SmallHeaderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Solution Architect"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    tools:text="Solution Architect" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="218dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:weightSum="5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView3"
+                        style="@style/PxTheme.SvgIcon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_linkedin"
+                        tools:layout_height="wrap_content"
+                        tools:layout_width="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView4"
+                        style="@style/PxTheme.SvgIcon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_facebook"
+                        tools:layout_height="wrap_content"
+                        tools:layout_width="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView5"
+                        style="@style/PxTheme.SvgIcon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_twitter"
+                        tools:layout_height="wrap_content"
+                        tools:layout_width="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView6"
+                        style="@style/PxTheme.SvgIcon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_google_plus"
+                        tools:layout_height="wrap_content"
+                        tools:layout_width="wrap_content" />
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/imageView7"
+                        style="@style/PxTheme.SvgIcon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_instagram"
+                        tools:layout_height="wrap_content"
+                        tools:layout_width="wrap_content" />
+
+
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/pxWhiteElements">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_width="254dp"
+                    android:layout_height="43dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/px_dark_button"
+                    android:textColor="@color/pxTextMain"
+
+                    android:fontFamily="@font/quicksand_light"
+
+                    android:textSize="16sp"
+
+                    android:text="DOWNLOAD CV"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</layout>
