@@ -8,8 +8,7 @@ import io.realm.RealmResults
 /**
  * Created by mikael on 2018-01-26.
  */
-abstract class RealmHelper<in T> {
-
+interface RealmHelper<in T> {
 
     fun <E : RealmObject> findById(fieldName: String, idKey: String?, clazz: Class<E>): E? {
         val realm = allowDeleteIfMigrationNeeded()
@@ -54,7 +53,6 @@ abstract class RealmHelper<in T> {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         return Realm.getInstance(config)
-
     }
 
 }

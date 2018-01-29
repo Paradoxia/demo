@@ -32,7 +32,7 @@ class HomeRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapt
         val typeId = getItemViewType(position)
         if (typeId == 0) {
             val cardProfileHeader = holder as CardProfileHeaderViewHolder
-            cardProfileHeader.bind(items[position] as HomeViewModel.CardProfilerHeader)
+            cardProfileHeader.bind(items[position] as HomeViewModel.CardProfileHeader)
         } else if (typeId == 1) {
             val cardAboutMe = holder as CardAboutMeViewHolder
             cardAboutMe.bind(items[position] as HomeViewModel.CardAboutMe)
@@ -41,7 +41,7 @@ class HomeRecyclerViewAdapter(private val items: List<Any>) : RecyclerView.Adapt
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            items[position] is HomeViewModel.CardProfilerHeader -> 0
+            items[position] is HomeViewModel.CardProfileHeader -> 0
             items[position] is HomeViewModel.CardAboutMe -> 1
             else -> -1
         }

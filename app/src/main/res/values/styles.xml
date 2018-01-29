@@ -34,7 +34,7 @@
     <style name="PxTheme.SvgIcon" parent="PxTheme">
         <item name="android:layout_width">@dimen/px_svg_icon_width</item>
         <item name="android:layout_height">@dimen/px_svg_icon_height</item>
-        <item name="android:tint">@color/pxTextMain</item>
+        <item name="android:tint">@color/px_external_button_effect</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginTop">8dp</item>

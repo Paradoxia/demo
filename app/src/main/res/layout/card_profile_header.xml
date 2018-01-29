@@ -7,7 +7,7 @@
 
         <variable
             name="cardProfileHeader"
-            type="se.paradoxia.pxdemo.home.HomeViewModel.CardProfilerHeader" />
+            type="se.paradoxia.pxdemo.home.HomeViewModel.CardProfileHeader" />
     </data>
 
     <android.support.v7.widget.CardView
@@ -63,7 +63,7 @@
                         android:layout_marginRight="8dp"
                         android:layout_weight="1"
                         android:onClick="@{cardProfileHeader.homeViewModel::selectLangSV}"
-                        android:tint="@color/px_lang_button"
+                        android:tint="@color/px_lang_button_effect"
                         android:tintMode="src_atop"
                         app:srcCompat="@drawable/px_lang_swedish_button" />
 
@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:onClick="@{cardProfileHeader.homeViewModel::selectLangEN}"
-                        android:tint="@color/px_lang_button"
+                        android:tint="@color/px_lang_button_effect"
                         android:tintMode="src_atop"
                         app:srcCompat="@drawable/ic_uk" />
                 </LinearLayout>
@@ -92,7 +92,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:text="@{cardProfileHeader.profileName}"
+                    android:text="@{cardProfileHeader.name}"
                     android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -109,7 +109,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="32dp"
-                    app:circleImageRes="@{cardProfileHeader.profileImageRes}"
+                    app:circleImageUrl="@{cardProfileHeader.profileImage}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -123,7 +123,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
-                    android:text="Solution Architect"
+                    android:text="@{cardProfileHeader.role}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -145,6 +145,8 @@
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageView3"
                         style="@style/PxTheme.SvgIcon"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.linkedin}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -159,6 +161,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_facebook"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.facebook}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
@@ -169,6 +173,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_twitter"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.twitter}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
@@ -179,6 +185,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_google_plus"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.google}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
@@ -189,6 +197,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_instagram"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.instagram}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
@@ -212,7 +222,7 @@
                     android:background="@drawable/px_dark_button"
                     android:fontFamily="@font/quicksand_light"
 
-                    android:text="DOWNLOAD CV"
+                    android:text="@{cardProfileHeader.downloadText}"
 
                     android:textColor="@color/pxTextMain"
 

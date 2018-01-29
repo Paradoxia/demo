@@ -2,11 +2,15 @@ package se.paradoxia.pxdemo.home
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
+import android.net.Uri
 import android.view.View
 import com.gojuno.koptional.Optional
+import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
+import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
+import se.paradoxia.pxdemo.service.ExternalSiteOpener
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
 import javax.inject.Inject
@@ -18,25 +22,14 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val contentService: ContentService,
                                         private val sharedPreferencesService: SharedPreferencesService) : ViewModel() {
 
-    val someText = ObservableField<String>()
-    val profileImage = ObservableField<Int>()
-
-    val profileName = ObservableField<String>()
-
-    val cardProfilerHeader = CardProfilerHeader(this)
-
+    val cardProfileHeader = CardProfileHeader(this)
     val cardAboutMe = CardAboutMe()
 
-    fun init() {
+    var externalSiteOpener: ExternalSiteOpener? = null
 
-
-        profileImage.set(R.drawable.profile_image)
-        profileName.set("Mikael Olsson")
-
-        cardProfilerHeader.init()
-
+    fun init(externalSiteOpener: ExternalSiteOpener) {
+        this.externalSiteOpener = externalSiteOpener
         loadContent()
-
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -51,33 +44,63 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
         loadContent()
     }
 
+    fun openExternalSite(view: View?) {
+        if (view?.tag != null) {
+            externalSiteOpener?.open(view.tag as String)
+        }
+    }
+
     internal fun loadContent() {
-        val language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")
-        contentService.fetchAboutMe().subscribe({ t: Optional<AboutMeResponse> ->
-            val aboutMeResponse: AboutMeResponse? = t.toNullable()
+        val language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")!!
+
+        contentService.fetchAboutMe().subscribe({ response: Optional<AboutMeResponse> ->
+            val aboutMeResponse: AboutMeResponse? = response.toNullable()
             if (aboutMeResponse != null) {
-                cardAboutMe.aboutMeText.set(if (language == "en") aboutMeResponse.aboutMeEn?.text else aboutMeResponse.aboutMeSv?.text)
-                cardAboutMe.aboutMeTitle.set(if (language == "en") aboutMeResponse.aboutMeEn?.title else aboutMeResponse.aboutMeSv?.title)
-                cardAboutMe.aboutMeHeadline.set(if (language == "en") aboutMeResponse.aboutMeEn?.headline else aboutMeResponse.aboutMeSv?.headline)
+                cardAboutMe.update(language, aboutMeResponse)
             }
         })
+
+        contentService.fetchInfoCard().subscribe({ response: Optional<InfoCardResponse> ->
+            val infoCardResponse: InfoCardResponse? = response.toNullable()
+            if (infoCardResponse != null) {
+                cardProfileHeader.update(language, infoCardResponse)
+            }
+        })
+
     }
 
-    fun setText(text: String) {
-        someText.set(text)
-    }
+    fun getCards() = listOf(cardProfileHeader, cardAboutMe, cardProfileHeader, cardProfileHeader, cardProfileHeader, cardProfileHeader)
 
-    fun getCards() = listOf(cardProfilerHeader, cardAboutMe, cardProfilerHeader, cardProfilerHeader, cardProfilerHeader, cardProfilerHeader)
+    class CardProfileHeader(val homeViewModel: HomeViewModel) {
+        val downloadFile = ObservableField<String>()
+        val downloadText = ObservableField<String>()
+        val facebook = ObservableField<String>()
+        val instagram = ObservableField<String>()
+        val google = ObservableField<String>()
+        val twitter = ObservableField<String>()
+        val linkedin = ObservableField<String>()
+        val name = ObservableField<String>()
+        val profileImage = ObservableField<String>()
+        val role = ObservableField<String>()
 
-    class CardProfilerHeader(val homeViewModel: HomeViewModel) {
-
-        fun init() {
-            profileImageRes.set(R.drawable.profile_image)
-            profileName.set("Mikael Olsson")
+        init {
+            val applicationId = BuildConfig.APPLICATION_ID
+            val path = Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
+            profileImage.set(path.toString())
         }
 
-        val profileImageRes = ObservableField<Int>()
-        val profileName = ObservableField<String>()
+        fun update(language: String, infoCardResponse: InfoCardResponse) {
+            downloadFile.set(if (language == "en") infoCardResponse.downloadFile?.en else infoCardResponse.downloadFile?.sv)
+            downloadText.set(if (language == "en") infoCardResponse.downloadText?.en else infoCardResponse.downloadText?.sv)
+            facebook.set("fb://facewebmodal/f?href="+infoCardResponse.facebook) // Latest confirmed trick to open facebook
+            instagram.set(infoCardResponse.instagram)
+            google.set(infoCardResponse.google)
+            twitter.set(infoCardResponse.twitter)
+            linkedin.set(infoCardResponse.linkedin)
+            name.set(infoCardResponse.name)
+            profileImage.set(BuildConfig.IMAGE_BASE_URL + infoCardResponse.profileImage?.x2)
+            role.set(if (language == "en") infoCardResponse.role?.en else infoCardResponse.role?.sv)
+        }
 
     }
 
@@ -85,6 +108,12 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
         val aboutMeTitle = ObservableField<String>()
         val aboutMeHeadline = ObservableField<String>()
         val aboutMeText = ObservableField<String>()
+
+        fun update(language: String, aboutMeResponse: AboutMeResponse) {
+            aboutMeText.set(if (language == "en") aboutMeResponse.aboutMeEn?.text else aboutMeResponse.aboutMeSv?.text)
+            aboutMeTitle.set(if (language == "en") aboutMeResponse.aboutMeEn?.title else aboutMeResponse.aboutMeSv?.title)
+            aboutMeHeadline.set(if (language == "en") aboutMeResponse.aboutMeEn?.headline else aboutMeResponse.aboutMeSv?.headline)
+        }
     }
 
 

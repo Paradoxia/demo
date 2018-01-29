@@ -27,6 +27,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "CONTENT_API_BASE_URL", "\"${ContentApiBaseUrl}\"")
+        buildConfigField("String", "IMAGE_BASE_URL", "\"${ImageBaseUrl}\"")
 
         multiDexEnabled true
     }
