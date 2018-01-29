@@ -1,6 +1,7 @@
 package se.paradoxia.pxdemo.home
 
 import android.app.Fragment
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +13,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_home.*
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.service.ExternalSiteOpener
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -47,9 +49,13 @@ class HomeFragment : Fragment(), ExternalSiteOpener {
     }
 
     override fun open(url: String) {
-        val externalSiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        externalSiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
-        this.startActivity(externalSiteIntent)
+        try {
+            val externalSiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            externalSiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
+            this.startActivity(externalSiteIntent)
+        } catch (ex: ActivityNotFoundException) {
+            Timber.e(ex)
+        }
     }
 
 }
