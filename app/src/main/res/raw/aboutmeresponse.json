@@ -1,0 +1,13 @@
+{
+  "id" : "aboutme",
+  "en" : {
+    "title" : "About me",
+    "headline" : "Hi, I'm Mikael!",
+    "text" : "I am a freelancing Solution Architect with over 28 years of professional coding experience. Ever since I got my first computer at the age of ten I knew that coding would be the thing of my life. I love programming and to learn everything new that evolves from the software industry.  Solving tough logical problems is something that inspires and drives me. Not something that scares me. I'm always up for a challenge. During my long journey as a programmer, I learned how to handle large and complex projects, as well as how to teach, inspire and lead fellow developers. That led me to the path of becoming a Solution Architect twenty years ago. Being a Solution Architect is not about telling people what to do, but instead, someone who supports and guides people into breaking huge complex problems into smaller manageable parts. So if you need someone who can guide and support your developers, give advice when you face unknown territory or just need a spare developer when resources are hard to find, then I would be honored to tell you more about my services."
+  },
+  "sv" : {
+    "title" : "Om mig",
+    "headline" : "Hej, Jag heter Mikael!",
+    "text" : "Jag är en frilansande systemarkitekt med över 28 års yrkeserfarenhet. Ända sedan jag fick min första dator vid tio års ålder så visste jag att programmering skulle bli en viktig del ut av mig liv. Jag älskar att utveckla och att lära mig allt nytt som alstras från programvaruindustrin. Att lösa tuffa logiska problem är något som inspirerar och driver mig. Inte något som skrämmer mig. Jag är alltid redo för nya utmaningar. Under min långa resa som programmerare lärde jag mig att hantera stora och komplexa projekt, samt hur man utbildar, inspirerar och stöttar medarbetare. Det ledde mig slutligen till att bli systemarkitekt, för tjugo år sedan. Att vara en systemarkitekt handlar inte om att peka med handflatan och berätta för folk vad de skall göra, utan istället vara en person som stödjer och leder människor till att bryta ner stora komplexa problem till mindre hanterbara delar. Så om ni behöver någon som kan vägleda och stödja era utvecklare, ge råd när ni möter okänt territorium eller bara behöver en extrautvecklare när resurser är svåra att hitta hör så i fall av er så berätta jag gladeligen mer om mina tjänster."
+  }
+}

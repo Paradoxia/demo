@@ -1,0 +1,26 @@
+{
+  "id": "infocard",
+  "instagram": "https://www.instagram.com/mikael.olsson.1971/",
+  "facebook": "https://www.facebook.com/mikael.olsson.1806",
+  "twitter": "https://twitter.com/mrparadoxia",
+  "google": "https://plus.google.com/109869692855775366758",
+  "linkedin":"https://www.linkedin.com/in/mikaelolsson4/",
+  "downloadText": {
+    "en": "Download CV",
+    "sv": "Ladda ned CV"
+  },
+  "downloadFile": {
+    "en": "/assets/files/cv-mikael-olsson-en.pdf",
+    "sv": "/assets/files/cv-mikael-olsson-sv.pdf"
+  },
+
+  "name":"Mikael Olsson",
+  "role": {
+    "en": "Solution Architect",
+    "sv": "Systemarkitekt"
+  },
+  "profileImage": {
+    "x1": "/assets/images/profile-195x195.png",
+    "x2": "/assets/images/profile-390x390-2x.png"
+  }
+}

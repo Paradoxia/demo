@@ -11,12 +11,17 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import se.paradoxia.pxdemo.home.HomeFragment
+import se.paradoxia.pxdemo.util.CustomDebugTree
+import se.paradoxia.pxdemo.util.ReleaseTree
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasFragmentInjector {
 
     // Activity is responsible for Fragment injections
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
     override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -43,11 +48,18 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
         AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(CustomDebugTree())
+        } else {
+            Timber.plant(ReleaseTree())
+        }
+
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        addFragmentToActivity(fragmentManager, HomeFragment.newInstance(),R.id.flPage)
+        addFragmentToActivity(fragmentManager, HomeFragment.newInstance(), R.id.flPage)
 
     }
 

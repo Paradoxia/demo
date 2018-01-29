@@ -1,6 +1,7 @@
 package se.paradoxia.pxdemo.api
 
 import io.reactivex.Observable
+import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 
 /**
@@ -16,7 +17,7 @@ interface RestApi {
             val retrofit = retrofit2.Retrofit.Builder()
                     .addCallAdapterFactory(retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory.create())
                     .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
-                    .baseUrl("http://www.paradoxia.se/api/content/")
+                    .baseUrl(BuildConfig.CONTENT_API_BASE_URL)
                     .build()
 
             return retrofit.create(RestApi::class.java)

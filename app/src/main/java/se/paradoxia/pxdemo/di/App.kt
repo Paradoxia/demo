@@ -6,6 +6,7 @@ import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.realm.Realm
 import se.paradoxia.pxdemo.util.AllOpen
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ class App : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
         initLeakCanary()
+        initRealm()
         initAppComponent()
     }
 
@@ -39,6 +41,10 @@ class App : Application(), HasActivityInjector {
             return
         }
         LeakCanary.install(this)
+    }
+
+    private fun initRealm() {
+        Realm.init(this)
     }
 
 }

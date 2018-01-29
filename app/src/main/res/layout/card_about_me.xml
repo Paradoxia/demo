@@ -39,7 +39,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="20dp"
-                    android:text="About Me"
+                    android:text="@{cardAboutMe.aboutMeTitle}"
                     android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -76,18 +76,20 @@
                         style="@style/PxTheme.SmallHeaderText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
                         android:textStyle="bold"
-                        android:text="Hi, I'm Mikael" />
+                        android:text="@{cardAboutMe.aboutMeHeadline}" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
                         android:fontFamily="@font/quicksand_light"
                         android:textSize="18sp"
                         android:textStyle="normal"
                         android:textColor="@color/pxTextLight"
-                        android:text="@string/temp_about_me" />
+                        android:text="@{cardAboutMe.aboutMeText}" />
 
                 </LinearLayout>
             </android.support.constraint.ConstraintLayout>

@@ -13,4 +13,7 @@
     <color name="pxWhiteElements">#373737</color>
     <color name="pxBlack">#000000</color>
 
+    <color name="pxTransparent">#00000000</color>
+    <color name="pxTransparent50">#77000000</color>
+
 </resources>

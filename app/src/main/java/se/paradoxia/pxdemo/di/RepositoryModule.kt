@@ -5,6 +5,7 @@ import dagger.Provides
 import se.paradoxia.pxdemo.api.RestApi
 import se.paradoxia.pxdemo.repository.ContentProvider
 import se.paradoxia.pxdemo.service.ContentService
+import se.paradoxia.pxdemo.service.RawResourceService
 import se.paradoxia.pxdemo.service.SchedulerService
 import javax.inject.Singleton
 
@@ -16,8 +17,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideContentService(schedulerService: SchedulerService): ContentService {
-        return ContentProvider(RestApi.create(), schedulerService)
+    fun provideContentService(schedulerService: SchedulerService, rawResourceService: RawResourceService): ContentService {
+        return ContentProvider(RestApi.create(), schedulerService, rawResourceService)
     }
 
 }

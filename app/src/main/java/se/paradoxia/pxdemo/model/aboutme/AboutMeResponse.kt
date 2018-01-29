@@ -1,15 +1,21 @@
 package se.paradoxia.pxdemo.model.aboutme
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import se.paradoxia.pxdemo.util.AllOpen
 
-data class AboutMeResponse(
+@AllOpen
+class AboutMeResponse : RealmObject() {
 
-        @field:SerializedName("sv")
-        val sv: Sv? = null,
+    @PrimaryKey
+    @field:SerializedName("id")
+    var id: String? = null
 
-        @field:SerializedName("en")
-        val en: En? = null,
+    @field:SerializedName("sv")
+    var aboutMeSv: AboutMeSv? = null
 
-        @field:SerializedName("id")
-        val id: String? = null
-)
+    @field:SerializedName("en")
+    var aboutMeEn: AboutMeEn? = null
+
+}

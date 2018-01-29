@@ -4,8 +4,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
-
-
-    <string name="temp_about_me">I am a freelancing Solution Architect with over 28 years of professional coding experience. Ever since I got my first computer at the age of ten I knew that coding would be the thing of my life. I love programming and to learn everything new that evolves from the software industry. Solving tough logical problems is something that inspires and drives me. Not something that scares me. I\'m always up for a challenge. During my long journey as a programmer, I learned how to handle large and complex projects, as well as how to teach, inspire and lead fellow developers. That led me to the path of becoming a Solution Architect twenty years ago. Being a Solution Architect is not about telling people what to do, but instead, someone who supports and guides people into breaking huge complex problems into smaller manageable parts. So if you need someone who can guide and support your developers, give advice when you face unknown territory or just need a spare developer when resources are hard to find, then I would be honored to tell you more about my services.</string>
+    <string name="about_me_response_text">AboutMe.Text</string>
 
 </resources>

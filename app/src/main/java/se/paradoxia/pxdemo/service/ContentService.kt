@@ -1,5 +1,6 @@
 package se.paradoxia.pxdemo.service
 
+import com.gojuno.koptional.Optional
 import io.reactivex.Observable
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 
@@ -8,6 +9,6 @@ import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
  */
 interface ContentService {
 
-    fun fetchAboutMe() : Observable<AboutMeResponse>
+    fun fetchAboutMe() : Observable<Optional<AboutMeResponse>>
 
 }
