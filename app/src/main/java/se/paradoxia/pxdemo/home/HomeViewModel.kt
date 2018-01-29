@@ -26,6 +26,8 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
 
     var homeViewAction: HomeViewAction? = null
 
+    var language: String? = null
+
     fun init(homeViewAction: HomeViewAction) {
         this.homeViewAction = homeViewAction
         loadContent()
@@ -51,24 +53,24 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
 
     fun saveToStorage(view: View?) {
         if (view?.tag != null) {
-            homeViewAction?.saveToStorage(view.tag as String)
+            homeViewAction?.saveToStorage(view.tag as String, if (language == "sv") "se" else language!!)
         }
     }
 
     internal fun loadContent() {
-        val language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")!!
+        language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")!!
 
         contentService.fetchAboutMe().subscribe({ response: Optional<AboutMeResponse> ->
             val aboutMeResponse: AboutMeResponse? = response.toNullable()
             if (aboutMeResponse != null) {
-                cardAboutMe.update(language, aboutMeResponse)
+                cardAboutMe.update(language!!, aboutMeResponse)
             }
         })
 
         contentService.fetchInfoCard().subscribe({ response: Optional<InfoCardResponse> ->
             val infoCardResponse: InfoCardResponse? = response.toNullable()
             if (infoCardResponse != null) {
-                cardProfileHeader.update(language, infoCardResponse)
+                cardProfileHeader.update(language!!, infoCardResponse)
             }
         })
 

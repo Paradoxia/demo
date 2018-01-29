@@ -4,12 +4,16 @@ import android.Manifest
 import android.app.DownloadManager
 import android.app.Fragment
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Context.DOWNLOAD_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -22,6 +26,7 @@ import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
 import se.paradoxia.pxdemo.permission.PermissionHelper
 import se.paradoxia.pxdemo.permission.PermissionViewModel
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 
@@ -63,9 +68,10 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
 
     }
 
-    override fun saveToStorage(url: String) {
+    override fun saveToStorage(url: String, language: String) {
         this.saveToStorageUrl = url
         val permissionViewModel = PermissionViewModel()
+        permissionViewModel.explanation.set(getLocalizedResources(activity, language).getString(R.string.download_permission_explanation)!!)
         val permitted = permissionHelper?.havePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
             it ?: false
         }
@@ -110,6 +116,15 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
         r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
         val dm = activity.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         dm.enqueue(r)
+    }
+
+    @NonNull
+    private fun getLocalizedResources(context: Context, language: String): Resources {
+        val locale = Locale(language)
+        val configuration = Configuration(context.resources.configuration)
+        configuration.setLocale(locale)
+        val localizedContext = context.createConfigurationContext(configuration)
+        return localizedContext.resources
     }
 
 }

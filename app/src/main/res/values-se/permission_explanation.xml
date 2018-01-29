@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download_permission_explanation">För att ladda ner och spara CV:et på er mobil så måste appen få tillåtelse att spara på er enhet.</string>
+</resources>

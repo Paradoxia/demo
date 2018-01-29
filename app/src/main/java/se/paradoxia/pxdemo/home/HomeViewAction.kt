@@ -8,6 +8,6 @@ interface HomeViewAction {
 
     fun openExternalSite(url: String)
 
-    fun saveToStorage(url: String)
+    fun saveToStorage(url: String, language: String)
 
 }

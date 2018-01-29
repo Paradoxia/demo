@@ -5,5 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
     <string name="about_me_response_text">AboutMe.Text</string>
-
+    <string name="download_permission_explanation">To download and save the CV on your device the app needs permission to your storage.</string>
 </resources>
