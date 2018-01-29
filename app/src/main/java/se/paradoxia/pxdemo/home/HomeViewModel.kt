@@ -10,7 +10,6 @@ import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
-import se.paradoxia.pxdemo.service.ExternalSiteOpener
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
 import javax.inject.Inject
@@ -25,10 +24,10 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
     val cardProfileHeader = CardProfileHeader(this)
     val cardAboutMe = CardAboutMe()
 
-    var externalSiteOpener: ExternalSiteOpener? = null
+    var homeViewAction: HomeViewAction? = null
 
-    fun init(externalSiteOpener: ExternalSiteOpener) {
-        this.externalSiteOpener = externalSiteOpener
+    fun init(homeViewAction: HomeViewAction) {
+        this.homeViewAction = homeViewAction
         loadContent()
     }
 
@@ -46,7 +45,13 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
 
     fun openExternalSite(view: View?) {
         if (view?.tag != null) {
-            externalSiteOpener?.open(view.tag as String)
+            homeViewAction?.openExternalSite(view.tag as String)
+        }
+    }
+
+    fun saveToStorage(view: View?) {
+        if (view?.tag != null) {
+            homeViewAction?.saveToStorage(view.tag as String)
         }
     }
 
@@ -90,9 +95,9 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
         }
 
         fun update(language: String, infoCardResponse: InfoCardResponse) {
-            downloadFile.set(if (language == "en") infoCardResponse.downloadFile?.en else infoCardResponse.downloadFile?.sv)
+            downloadFile.set(if (language == "en") BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.en else BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.sv)
             downloadText.set(if (language == "en") infoCardResponse.downloadText?.en else infoCardResponse.downloadText?.sv)
-            facebook.set("fb://facewebmodal/f?href="+infoCardResponse.facebook) // Latest confirmed trick to open facebook
+            facebook.set("fb://facewebmodal/f?href=" + infoCardResponse.facebook) // Latest confirmed trick to openExternalSite facebook
             instagram.set(infoCardResponse.instagram)
             google.set(infoCardResponse.google)
             twitter.set(infoCardResponse.twitter)

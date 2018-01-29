@@ -11,6 +11,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import se.paradoxia.pxdemo.home.HomeFragment
+import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
 import se.paradoxia.pxdemo.util.CustomDebugTree
 import se.paradoxia.pxdemo.util.ReleaseTree
 import timber.log.Timber
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
     // Activity is responsible for Fragment injections
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    var activeFragment : Fragment? = null
 
     override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
@@ -67,6 +70,13 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
         val transaction = manager.beginTransaction()
         transaction.replace(frameId, fragment)
         transaction.commit()
+        this.activeFragment = fragment
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(this.activeFragment is FragmentPermissionReceiver) {
+            (this.activeFragment as FragmentPermissionReceiver).onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
 }

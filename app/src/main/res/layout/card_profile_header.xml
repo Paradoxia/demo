@@ -221,12 +221,11 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/px_dark_button"
                     android:fontFamily="@font/quicksand_light"
-
                     android:text="@{cardProfileHeader.downloadText}"
-
                     android:textColor="@color/pxTextMain"
-
                     android:textSize="16sp"
+                    android:onClick="@{(v)->cardProfileHeader.homeViewModel.saveToStorage(v)}"
+                    android:tag="@{cardProfileHeader.downloadFile}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

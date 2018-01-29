@@ -28,6 +28,7 @@ android {
 
         buildConfigField("String", "CONTENT_API_BASE_URL", "\"${ContentApiBaseUrl}\"")
         buildConfigField("String", "IMAGE_BASE_URL", "\"${ImageBaseUrl}\"")
+        buildConfigField("String", "FILE_BASE_URL", "\"${FileBaseUrl}\"")
 
         multiDexEnabled true
     }
