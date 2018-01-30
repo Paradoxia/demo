@@ -15,7 +15,6 @@ import org.junit.Test
 import org.mockito.Mockito
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.di.App
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
@@ -28,7 +27,6 @@ import kotlin.test.assertEquals
  */
 class HomeViewModelTest {
 
-    private val app: App = Mockito.mock(App::class.java)
     private val contentService: ContentService = Mockito.mock(ContentService::class.java)
     private val sharedPreferencesService: SharedPreferencesService = Mockito.mock(SharedPreferencesService::class.java)
     private val homeViewAction: HomeViewAction = Mockito.mock(HomeViewAction::class.java)

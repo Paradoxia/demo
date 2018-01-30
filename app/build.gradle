@@ -76,6 +76,11 @@ android {
     testOptions {
         unitTests {
             includeAndroidResources = true
+            all {
+                include '**/*Test.class'
+                // configure max heap size of the test JVM
+                maxHeapSize = "4096m"
+            }
         }
     }
 

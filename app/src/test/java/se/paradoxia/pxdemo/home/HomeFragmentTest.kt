@@ -29,28 +29,13 @@ class HomeFragmentTest {
 
     @Test
     fun shouldX() {
-
         val z : FrameLayout = mainActivity.findViewById(R.id.flPage)
-
         val recyclerView : RecyclerView = z.findViewById(R.id.recViewHome)
-
-
         val firstCount = recyclerView.childCount
         recyclerView.scrollToPosition(1)
         val secondCount = recyclerView.childCount
         val itemCount = recyclerView.adapter.itemCount
-
-
-
-        // recyclerView.childCount
-
-/*        val fragmentController = Robolectric.buildFragment(HomeFragment::class.java, AppCompatActivity::class.java)
-        fragmentController.create().start().resume().visible() */
-
         println("z")
-
-
-
     }
 
 
