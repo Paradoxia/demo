@@ -12,6 +12,7 @@ import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
+import se.paradoxia.pxdemo.util.ViewTypeMapper
 import javax.inject.Inject
 
 /**
@@ -76,7 +77,16 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
 
     }
 
-    fun getCards() = listOf(cardProfileHeader, cardAboutMe, cardProfileHeader, cardProfileHeader, cardProfileHeader, cardProfileHeader)
+    fun getCards() = listOf(cardProfileHeader, cardAboutMe)
+
+    fun getViewTypeMap() = listOf(
+            ViewTypeMapper(CardAboutMe::class.java,
+                    R.layout.card_about_me,
+                    CardAboutMeViewHolder::class.java),
+            ViewTypeMapper(CardProfileHeader::class.java,
+                    R.layout.card_profile_header,
+                    CardProfileHeaderViewHolder::class.java)
+    )
 
     class CardProfileHeader(val homeViewModel: HomeViewModel) {
         val downloadFile = ObservableField<String>()

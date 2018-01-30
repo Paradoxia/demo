@@ -13,7 +13,6 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -25,6 +24,7 @@ import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
 import se.paradoxia.pxdemo.permission.PermissionHelper
 import se.paradoxia.pxdemo.permission.PermissionViewModel
+import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -63,7 +63,7 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
         homeViewModel.init(this)
         val layoutManager = LinearLayoutManager(activity)
         recViewHome.layoutManager = layoutManager
-        recViewHome.adapter = HomeRecyclerViewAdapter(homeViewModel.getCards())
+        recViewHome.adapter = FlexibleRecyclerViewAdapter(homeViewModel.getViewTypeMap(), homeViewModel.getCards())
         permissionHelper = PermissionHelper(this.activity as AppCompatActivity)
 
     }
@@ -110,15 +110,14 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
     private fun download(url: String) {
         val uri = Uri.parse(url)
         val fileName = uri.lastPathSegment
-        val r = DownloadManager.Request(uri)
-        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-        r.allowScanningByMediaScanner()
-        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        val dm = activity.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        dm.enqueue(r)
+        val request = DownloadManager.Request(uri)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+        request.allowScanningByMediaScanner()
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        val downloadManager = activity.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
     }
 
-    @NonNull
     private fun getLocalizedResources(context: Context, language: String): Resources {
         val locale = Locale(language)
         val configuration = Configuration(context.resources.configuration)

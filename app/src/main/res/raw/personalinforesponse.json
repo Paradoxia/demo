@@ -1,0 +1,67 @@
+{
+  "id": "personalinfo",
+  "en": {
+    "fullName": "Mikael Leif Olsson",
+    "dateOfBirth": "08 Dec 1971",
+    "residence": "Stockholm, Sweden",
+    "email": "mikael@paradoxia.se",
+    "phone": "+46 70 146 9383",
+    "status": "Contracted",
+    "languages": [
+      {
+        "title": "Swedish",
+        "value": 10
+      },
+      {
+        "title": "English",
+        "value": 9
+      },
+      {
+        "title": "Icelandic",
+        "value": 1
+      }
+    ],
+    "fields": {
+      "piTitle": "personal information",
+      "langTitle": "languages",
+      "fullName": "full name",
+      "dateOfBirth": "d.o.b.",
+      "residence": "residence",
+      "email": "e-mail",
+      "phone": "phone",
+      "status": "freelance"
+    }
+  },
+  "sv": {
+    "fullName": "Mikael Leif Olsson",
+    "dateOfBirth": "08 Dec 1971",
+    "residence": "Stockholm, Sverige",
+    "email": "mikael@paradoxia.se",
+    "phone": "070 146 9383",
+    "status": "Kontrakterad",
+    "languages": [
+      {
+        "title": "Svenska",
+        "value": 10
+      },
+      {
+        "title": "Engelska",
+        "value": 9
+      },
+      {
+        "title": "Isländska",
+        "value": 1
+      }
+    ],
+    "fields": {
+      "piTitle": "personuppgifter",
+      "langTitle": "språkkunskaper",
+      "fullName": "namn",
+      "dateOfBirth": "födelseår",
+      "residence": "bosättning",
+      "email": "e-post",
+      "phone": "telefon",
+      "status": "frilans"
+    }
+  }
+}
