@@ -2,7 +2,6 @@ package se.paradoxia.pxdemo.home
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
-import android.net.Uri
 import android.view.View
 import com.gojuno.koptional.Optional
 import se.paradoxia.pxdemo.BuildConfig
@@ -29,8 +28,9 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
 
     var language: String? = null
 
-    fun init(homeViewAction: HomeViewAction) {
+    fun init(homeViewAction: HomeViewAction, profileImageResourceUri: String) {
         this.homeViewAction = homeViewAction
+        cardProfileHeader.init(profileImageResourceUri)
         loadContent()
     }
 
@@ -100,16 +100,17 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
         val profileImage = ObservableField<String>()
         val role = ObservableField<String>()
 
-        init {
-            val applicationId = BuildConfig.APPLICATION_ID
-            val path = Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
-            profileImage.set(path.toString())
+        /**
+         * Setting profile image using url from resources
+         */
+        fun init(profileImageResourceUri: String) {
+            profileImage.set(profileImageResourceUri)
         }
 
         fun update(language: String, infoCardResponse: InfoCardResponse) {
             downloadFile.set(if (language == "en") BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.en else BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.sv)
             downloadText.set(if (language == "en") infoCardResponse.downloadText?.en else infoCardResponse.downloadText?.sv)
-            facebook.set("fb://facewebmodal/f?href=" + infoCardResponse.facebook) // Latest confirmed trick to openExternalSite facebook
+            facebook.set(BuildConfig.FACEBOOK_EXTERNAL_URL + infoCardResponse.facebook)
             instagram.set(infoCardResponse.instagram)
             google.set(infoCardResponse.google)
             twitter.set(infoCardResponse.twitter)
