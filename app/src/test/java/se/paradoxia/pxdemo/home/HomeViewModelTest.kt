@@ -118,8 +118,8 @@ class HomeViewModelTest {
      * sourceSets defined to include "src/main/res/raw" in tests
      */
     private inline fun <reified E> rawResourceToInstance(rawFileName: String): E {
-        val z = HomeViewModelTest::class.java.classLoader.getResource(rawFileName).readText()
-        return Gson().fromJson(z, E::class.java)
+        val textAsJson = HomeViewModelTest::class.java.classLoader.getResource(rawFileName).readText()
+        return Gson().fromJson(textAsJson, E::class.java)
     }
 
 
