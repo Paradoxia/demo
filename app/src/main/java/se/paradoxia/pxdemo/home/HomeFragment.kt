@@ -96,7 +96,7 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            permissionService?.permissionToRequestCode(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+            permissionService.permissionToRequestCode(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
                 if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
                     Timber.d("%s granted", permissions[0])
                     if (saveToStorageUrl != null) {

@@ -8,9 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.gojuno.koptional.Optional
 import com.gojuno.koptional.toOptional
-import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.atLeast
-import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
 import org.amshove.kluent.*
 import org.junit.After
@@ -22,10 +19,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
-import se.paradoxia.pxdemo.BuildConfig
-import se.paradoxia.pxdemo.MainActivity
-import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.RobolectricTestBase
+import se.paradoxia.pxdemo.*
 import se.paradoxia.pxdemo.home.di.HomeTestApp
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
@@ -40,6 +34,20 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, application = HomeTestApp::class, sdk = [N], qualifiers = "w360dp-h640dp-xhdpi")
 class HomeFragmentTest : RobolectricTestBase() {
+
+
+    val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
+    val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
+
+    val localContentService = object : ContentService {
+        override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
+            return Observable.just(aboutMeResponse.toOptional())
+        }
+
+        override fun fetchInfoCard(): Observable<Optional<InfoCardResponse>> {
+            return Observable.just(infoCardResponse.toOptional())
+        }
+    }
 
     private lateinit var activityController: ActivityController<MainActivity>
     private lateinit var mainActivity: MainActivity
@@ -60,10 +68,14 @@ class HomeFragmentTest : RobolectricTestBase() {
     }
 
     @Test
-    fun shouldX() {
+    fun shouldInitHomeViewModelAndAskForViewTypeMapsAndCards() {
 
         Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeFragment::class), any(String::class)) was called
-        verify(spiedHomeViewModel).homeViewAction = mainActivity.activeFragment as HomeViewAction
+        Verify on spiedHomeViewModel that spiedHomeViewModel.getViewTypeMap() was called
+        Verify on spiedHomeViewModel that spiedHomeViewModel.getCards() was called
+
+
+/*        verify(spiedHomeViewModel).homeViewAction = mainActivity.activeFragment as HomeViewAction
 
         verify(spiedHomeViewModel, atLeast(1)).cardProfileHeader
 
@@ -71,7 +83,13 @@ class HomeFragmentTest : RobolectricTestBase() {
 
         verify(spiedHomeViewModel).language = "en"
 
-        verify(spiedHomeViewModel, atLeast(1)).cardAboutMe
+        verify(spiedHomeViewModel, atLeast(1)).cardAboutMe*/
+    }
+
+    @Test
+    fun shouldX() {
+
+
 
         val recyclerView: RecyclerView = mainActivity.findViewById(R.id.recViewHome)
 
@@ -112,28 +130,11 @@ class HomeFragmentTest : RobolectricTestBase() {
     override fun tearDown() {
         activityController.pause().stop().destroy()
         mainActivity.finish()
+        finishThreads()
     }
 
 }
 
-val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
-val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
-val localContentService = object : ContentService {
-    override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
-        return Observable.just(aboutMeResponse.toOptional())
-    }
 
-    override fun fetchInfoCard(): Observable<Optional<InfoCardResponse>> {
-        return Observable.just(infoCardResponse.toOptional())
-    }
-}
-
-/**
- * sourceSets defined to include "src/main/res/raw" in tests
- */
-private inline fun <reified E> rawResourceToInstance(rawFileName: String): E {
-    val textAsJson = HomeFragmentTest::class.java.classLoader.getResource(rawFileName).readText()
-    return Gson().fromJson(textAsJson, E::class.java)
-}
 
