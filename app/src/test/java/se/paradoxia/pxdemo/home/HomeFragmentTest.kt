@@ -1,5 +1,6 @@
 package se.paradoxia.pxdemo.home
 
+import android.app.Fragment
 import android.os.Build.VERSION_CODES.N
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
@@ -21,12 +22,14 @@ import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 import se.paradoxia.pxdemo.*
 import se.paradoxia.pxdemo.home.di.HomeTestApp
+import se.paradoxia.pxdemo.home.di.HomeTestAppComponent
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
 import javax.inject.Inject
 import kotlin.test.assertEquals
+
 
 // Due to problem with createConfigurationContext throwing exception with
 // any Robolectric version below N (24), sdk is set to "N"
@@ -35,11 +38,12 @@ import kotlin.test.assertEquals
 @Config(constants = BuildConfig::class, application = HomeTestApp::class, sdk = [N], qualifiers = "w360dp-h640dp-xhdpi")
 class HomeFragmentTest : RobolectricTestBase() {
 
-
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
-    val localContentService = object : ContentService {
+    var homeTestAppComponent : HomeTestAppComponent? = null
+
+    private val localContentService = object : ContentService {
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
             return Observable.just(aboutMeResponse.toOptional())
         }
@@ -49,7 +53,7 @@ class HomeFragmentTest : RobolectricTestBase() {
         }
     }
 
-    private lateinit var activityController: ActivityController<MainActivity>
+    private lateinit var activityController: ActivityController<StubMainActivity>
     private lateinit var mainActivity: MainActivity
 
     @Inject
@@ -59,12 +63,20 @@ class HomeFragmentTest : RobolectricTestBase() {
     override fun setUp() {
         val app = RuntimeEnvironment.application as HomeTestApp
         val homeTestAppModule = HomeTestAppModule(localContentService)
-        val homeTestAppComponent = app.setModules(homeTestAppModule)
-        homeTestAppComponent.inject(app)
-        homeTestAppComponent.inject(this)
+        homeTestAppComponent = app.setModules(homeTestAppModule)
+        homeTestAppComponent!!.inject(app)
 
-        activityController = Robolectric.buildActivity(MainActivity::class.java)
-        mainActivity = activityController.create().postCreate(null).start().resume().visible().get()
+        // HomeTestAppModule provides a mocked HomeViewModel singleton instance.
+        // Let's inject the same instance to our Test
+        injectProvidedSpiedHomeViewModel(homeTestAppComponent!!)
+
+        activityController = Robolectric.buildActivity(StubMainActivity::class.java)
+        mainActivity = activityController.setup().get()
+
+    }
+
+    private fun injectProvidedSpiedHomeViewModel(homeTestAppComponent: HomeTestAppComponent) {
+        homeTestAppComponent.inject(this)
     }
 
     @Test
@@ -74,22 +86,19 @@ class HomeFragmentTest : RobolectricTestBase() {
         Verify on spiedHomeViewModel that spiedHomeViewModel.getViewTypeMap() was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getCards() was called
 
-
-/*        verify(spiedHomeViewModel).homeViewAction = mainActivity.activeFragment as HomeViewAction
-
-        verify(spiedHomeViewModel, atLeast(1)).cardProfileHeader
-
-        Verify on spiedHomeViewModel that spiedHomeViewModel.loadContent() was called
-
-        verify(spiedHomeViewModel).language = "en"
-
-        verify(spiedHomeViewModel, atLeast(1)).cardAboutMe*/
     }
 
     @Test
-    fun shouldX() {
+    fun shouldInjectFragmentInActivity() {
 
+        val z = mainActivity.activeFragment
+        println("x")
 
+        //Verify on mainActivity that mainActivity.addFragmentToActivity(any(FragmentManager::class),any(HomeFragment::class), any(Int::class))
+    }
+
+    @Test
+    fun shouldBeEnglishInProfileHeaderTextViewsByDefault() {
 
         val recyclerView: RecyclerView = mainActivity.findViewById(R.id.recViewHome)
 
@@ -102,14 +111,35 @@ class HomeFragmentTest : RobolectricTestBase() {
         assertEquals("Solution Architect", roleEn)
         assertEquals("Download CV", downloadEn)
 
+    }
+
+    @Test
+    fun shouldBeSwedishInProfileHeaderTextViewsAfterLanguageChange() {
+
+        val recyclerView: RecyclerView = mainActivity.findViewById(R.id.recViewHome)
+
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val name = viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvName).text.toString()
+
         viewHolderProfileHeader.itemView.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
+
         val roleSv = viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvRole).text.toString()
         val downloadSv = viewHolderProfileHeader.itemView.findViewById<AppCompatButton>(R.id.btDownload).text.toString()
 
+        assertEquals("Mikael Olsson", name)
         assertEquals("Systemarkitekt", roleSv)
         assertEquals("Ladda ned CV", downloadSv)
 
+    }
+
+    @Test
+    fun shouldX() {
+
+        val recyclerView: RecyclerView = mainActivity.findViewById(R.id.recViewHome)
+
         recyclerView.scrollToPosition(1)
+
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
 
         val downloadBtn = viewHolderProfileHeader.itemView.findViewById<AppCompatButton>(R.id.btDownload)
         downloadBtn.callOnClick()
@@ -134,6 +164,17 @@ class HomeFragmentTest : RobolectricTestBase() {
     }
 
 }
+
+class StubMainActivity : MainActivity() {
+
+    override fun getDefaultFragment(): Fragment {
+        return HomeFragment.newInstance()
+
+//        return super.getDefaultFragment()
+        //return Mockito.spy(super.getDefaultFragment())
+    }
+}
+
 
 
 

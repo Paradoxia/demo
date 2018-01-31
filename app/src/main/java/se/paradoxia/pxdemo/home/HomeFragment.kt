@@ -13,6 +13,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
 import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.PermissionService
+import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import timber.log.Timber
 import java.util.*
@@ -34,6 +36,7 @@ import javax.inject.Inject
 /**
  * Created by mikael on 2018-01-24.
  */
+@AllOpen
 class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
 
     @Inject
@@ -109,7 +112,8 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
         }
     }
 
-    private fun download(url: String) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun download(url: String) {
         val uri = Uri.parse(url)
         val fileName = uri.lastPathSegment
         val request = DownloadManager.Request(uri)
@@ -120,7 +124,8 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
         downloadManager.enqueue(request)
     }
 
-    private fun getLocalizedResources(context: Context, language: String): Resources {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getLocalizedResources(context: Context, language: String): Resources {
         val locale = Locale(language)
         val configuration = Configuration(context.resources.configuration)
         configuration.setLocale(locale)

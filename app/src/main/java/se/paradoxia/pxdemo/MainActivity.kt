@@ -3,6 +3,7 @@ package se.paradoxia.pxdemo
 import android.app.Fragment
 import android.app.FragmentManager
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import dagger.android.AndroidInjection
@@ -12,18 +13,20 @@ import dagger.android.HasFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import se.paradoxia.pxdemo.home.HomeFragment
 import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
+import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.CustomDebugTree
 import se.paradoxia.pxdemo.util.ReleaseTree
 import timber.log.Timber
 import javax.inject.Inject
 
+@AllOpen
 class MainActivity : AppCompatActivity(), HasFragmentInjector {
 
     // Activity is responsible for Fragment injections
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    var activeFragment : Fragment? = null
+    var activeFragment: Fragment? = null
 
     override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
@@ -62,11 +65,17 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        addFragmentToActivity(fragmentManager, HomeFragment.newInstance(), R.id.flPage)
+        addFragmentToActivity(fragmentManager, getDefaultFragment(), R.id.flPage)
 
     }
 
-    private fun addFragmentToActivity(manager: FragmentManager, fragment: Fragment, frameId: Int) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getDefaultFragment() : Fragment {
+        return HomeFragment.newInstance()
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun addFragmentToActivity(manager: FragmentManager, fragment: Fragment, frameId: Int) {
         val transaction = manager.beginTransaction()
         transaction.replace(frameId, fragment)
         transaction.commit()
@@ -75,7 +84,7 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(this.activeFragment is FragmentPermissionReceiver) {
+        if (this.activeFragment is FragmentPermissionReceiver) {
             (this.activeFragment as FragmentPermissionReceiver).onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
