@@ -2,6 +2,7 @@ package se.paradoxia.pxdemo.home
 
 import android.app.Fragment
 import android.os.Build.VERSION_CODES.N
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -15,6 +16,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
@@ -26,7 +28,9 @@ import se.paradoxia.pxdemo.home.di.HomeTestAppComponent
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
+import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.ContentService
+import se.paradoxia.pxdemo.service.PermissionService
 import javax.inject.Inject
 import kotlin.test.assertEquals
 
@@ -61,6 +65,9 @@ class HomeFragmentTest : RobolectricTestBase() {
 
     @Before
     override fun setUp() {
+
+        HomeFragmentLogic = interface = injectable = testable
+
         val app = RuntimeEnvironment.application as HomeTestApp
         val homeTestAppModule = HomeTestAppModule(localContentService)
         homeTestAppComponent = app.setModules(homeTestAppModule)
@@ -82,7 +89,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     @Test
     fun shouldInitHomeViewModelAndAskForViewTypeMapsAndCards() {
 
-        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeFragment::class), any(String::class)) was called
+        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeFragmentLogic::class), any(String::class)) was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getViewTypeMap() was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getCards() was called
 
@@ -168,7 +175,19 @@ class HomeFragmentTest : RobolectricTestBase() {
 class StubMainActivity : MainActivity() {
 
     override fun getDefaultFragment(): Fragment {
-        return HomeFragment.newInstance()
+
+        val customPermissionService = object:PermissionService {
+            override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
+                return true
+            }
+
+            override fun permissionToRequestCode(permission: String): Int {
+                return 0
+            }
+        }
+
+        val homeFragmentLogic = Mockito.spy(HomeFragmentLogic(customPermissionService))
+        return HomeFragment.newInstance(homeFragmentLogic)
 
 //        return super.getDefaultFragment()
         //return Mockito.spy(super.getDefaultFragment())
