@@ -1,9 +1,9 @@
 package se.paradoxia.pxdemo.provider
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.support.annotation.IdRes
 import com.google.gson.Gson
-import se.paradoxia.pxdemo.di.App
 import se.paradoxia.pxdemo.service.RawResourceService
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by mikael on 2018-01-28.
  */
-class RawResourceProvider @Inject constructor(private val app: App) : RawResourceService {
+class RawResourceProvider @Inject constructor(private val app: Application) : RawResourceService {
 
     @SuppressLint("ResourceType")
     override fun <E> readJson(@IdRes resId: Int, clazz: Class<E>): E {

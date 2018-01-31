@@ -4,14 +4,13 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import se.paradoxia.pxdemo.di.ActivityModule
-import se.paradoxia.pxdemo.di.ViewModelModuleInterface
 import javax.inject.Singleton
 
 /**
  * Created by mikael on 2018-01-20.
  */
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, HomeTestAppModule::class, ActivityModule::class, ViewModelModuleInterface::class])
+@Component(modules = [AndroidInjectionModule::class, ActivityModule::class, HomeTestAppModule::class, HomeTestViewModelModuleInterface::class])
 interface HomeTestAppComponent {
 
     @Component.Builder
@@ -20,7 +19,10 @@ interface HomeTestAppComponent {
         fun application(application: HomeTestApp): Builder
 
         @BindsInstance
-        fun setViewModelModule(viewModelModule: ViewModelModuleInterface) : Builder
+        fun setViewModelModule(viewModelModule: HomeTestViewModelModuleInterface): Builder
+
+        // DON'T use @BindsInstance otherwise Dagger will create the instance
+        fun setHomeTestAppModule(homeTestAppModule: HomeTestAppModule): Builder
 
         fun build(): HomeTestAppComponent
     }

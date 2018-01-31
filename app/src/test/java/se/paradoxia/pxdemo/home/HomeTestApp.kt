@@ -20,23 +20,11 @@ class HomeTestApp : Application(), HasActivityInjector {
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 
-    override fun onCreate() {
-        super.onCreate()
-        initAppComponent()
-    }
-
-    private fun initAppComponent() {
-        /*DaggerHomeTestAppComponent.builder()
-                .application(this)
-                .build()
-                .inject(this)*/
-    }
-
-    fun setModules(testViewModelModule: TempViewModelModule) {
-
+    fun setModules(homeTestAppModule : HomeTestAppModule,  viewModelModule: HomeTestViewModelModuleInterface) {
         DaggerHomeTestAppComponent.builder()
                 .application(this)
-                .viewModelModule(testViewModelModule)
+                .setViewModelModule(viewModelModule)
+                .setHomeTestAppModule(homeTestAppModule)
                 .build()
                 .inject(this)
     }

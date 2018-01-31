@@ -44,14 +44,18 @@ class HomeFragmentTest {
     @Test
     fun shouldX() {
 
+
         val app = RuntimeEnvironment.application as HomeTestApp
-        app.setModules(TempViewModelModule())
+
+        val homeTestAppModule = HomeTestAppModule(localContentService)
+
+
+        app.setModules(homeTestAppModule, TestViewModelModule())
         mainActivity = Robolectric.setupActivity(MainActivity::class.java)
 
 
-
-        val z : FrameLayout = mainActivity.findViewById(R.id.flPage)
-        val recyclerView : RecyclerView = z.findViewById(R.id.recViewHome)
+        val z: FrameLayout = mainActivity.findViewById(R.id.flPage)
+        val recyclerView: RecyclerView = z.findViewById(R.id.recViewHome)
         val firstCount = recyclerView.childCount
         recyclerView.scrollToPosition(1)
         val secondCount = recyclerView.childCount
@@ -60,17 +64,41 @@ class HomeFragmentTest {
     }
 
 
+}
+
+val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
+val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
+
+val localContentService = object : ContentService {
+    override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
+        return Observable.just(aboutMeResponse.toOptional())
+    }
+
+    override fun fetchInfoCard(): Observable<Optional<InfoCardResponse>> {
+        return Observable.just(infoCardResponse.toOptional())
+    }
+}
 
 
+/**
+ * sourceSets defined to include "src/main/res/raw" in tests
+ */
+private inline fun <reified E> rawResourceToInstance(rawFileName: String): E {
+    val textAsJson = HomeViewModelTest::class.java.classLoader.getResource(rawFileName).readText()
+    return Gson().fromJson(textAsJson, E::class.java)
 }
 
 @Module
-class TempViewModelModule  {
+class TestViewModelModule : HomeTestViewModelModuleInterface {
+
+    override fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
-    val localContentService = object:ContentService {
+    val localContentService = object : ContentService {
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
             return Observable.just(aboutMeResponse.toOptional())
         }
@@ -89,7 +117,7 @@ class TempViewModelModule  {
     @Provides
     @Singleton
     fun provideSharedPreferencesService(): SharedPreferencesService {
-        return object: SharedPreferencesService {
+        return object : SharedPreferencesService {
             override fun getString(key: String, groupKey: String?, defaultValue: String?): String? {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }

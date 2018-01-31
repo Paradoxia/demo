@@ -1,7 +1,7 @@
 package se.paradoxia.pxdemo.provider
 
+import android.app.Application
 import android.content.Context
-import se.paradoxia.pxdemo.di.App
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 const val DEFAULT_GROUP_KEY = "default"
 
-class SharedPreferencesProvider @Inject constructor(private val app: App) : SharedPreferencesService {
+class SharedPreferencesProvider @Inject constructor(private val app: Application) : SharedPreferencesService {
 
 
     override fun getString(key: String, groupKey: String?, defaultValue: String?): String? {
