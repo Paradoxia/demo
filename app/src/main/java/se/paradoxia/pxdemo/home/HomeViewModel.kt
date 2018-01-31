@@ -21,14 +21,18 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val contentService: ContentService,
                                         private val sharedPreferencesService: SharedPreferencesService) : ViewModel() {
 
-    val cardProfileHeader = CardProfileHeader(this)
-    val cardAboutMe = CardAboutMe()
+    // Important to lazy init properties because of Mock Spying
+    // uses a different "this" instance
+
+    lateinit var cardProfileHeader : CardProfileHeader
+    lateinit var cardAboutMe : CardAboutMe
 
     var homeViewAction: HomeViewAction? = null
-
     var language: String? = null
 
     fun init(homeViewAction: HomeViewAction, profileImageResourceUri: String) {
+        cardProfileHeader = CardProfileHeader(this)
+        cardAboutMe = CardAboutMe()
         this.homeViewAction = homeViewAction
         cardProfileHeader.init(profileImageResourceUri)
         loadContent()

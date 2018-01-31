@@ -45,6 +45,9 @@ class HomeViewModelTest {
         When calling sharedPreferencesService.getString(any(), anyOrNull(), any()) itReturns "sv"
 
         val expectedCards = listOf(HomeViewModel.CardProfileHeader(homeViewModel), HomeViewModel.CardAboutMe())
+
+        homeViewModel.init(homeViewAction, "profileimageresourceurl")
+
         val actualCards = homeViewModel.getCards()
         expectedCards.forEachIndexed { index, expectedCard ->
             assertEquals(expectedCard::class.java, actualCards[index]::class.java)
@@ -63,9 +66,6 @@ class HomeViewModelTest {
             MatcherAssert.assertThat(actualViewTypMaps[index],
                     SamePropertyValuesAs.samePropertyValuesAs(expectedViewTypeMap))
         }
-
-
-        homeViewModel.init(homeViewAction, "profileimageresourceurl")
 
         assertEquals("profileimageresourceurl", homeViewModel.cardProfileHeader.profileImage.get())
         testScheduler.triggerActions()

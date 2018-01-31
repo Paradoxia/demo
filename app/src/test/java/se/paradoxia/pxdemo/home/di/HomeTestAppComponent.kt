@@ -4,14 +4,14 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import se.paradoxia.pxdemo.di.ActivityModule
-import se.paradoxia.pxdemo.di.ViewModelModule
+import se.paradoxia.pxdemo.home.HomeFragmentTest
 import javax.inject.Singleton
 
 /**
  * Created by mikael on 2018-01-20.
  */
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, ActivityModule::class, HomeTestAppModule::class, ViewModelModule::class])
+@Component(modules = [AndroidInjectionModule::class, ActivityModule::class, HomeTestAppModule::class])
 interface HomeTestAppComponent {
 
     @Component.Builder
@@ -26,5 +26,7 @@ interface HomeTestAppComponent {
     }
 
     fun inject(app: HomeTestApp)
+
+    fun inject(any: HomeFragmentTest)
 
 }

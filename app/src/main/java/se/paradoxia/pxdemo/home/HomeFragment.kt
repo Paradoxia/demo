@@ -23,8 +23,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
-import se.paradoxia.pxdemo.permission.PermissionHelper
 import se.paradoxia.pxdemo.permission.PermissionViewModel
+import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import timber.log.Timber
 import java.util.*
@@ -39,7 +39,8 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
     @Inject
     lateinit var homeViewModel: HomeViewModel
 
-    private var permissionHelper: PermissionHelper? = null
+    @Inject
+    lateinit var permissionService: PermissionService
 
     private var saveToStorageUrl: String? = null
 
@@ -67,15 +68,13 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
         val layoutManager = LinearLayoutManager(activity)
         recViewHome.layoutManager = layoutManager
         recViewHome.adapter = FlexibleRecyclerViewAdapter(homeViewModel.getViewTypeMap(), homeViewModel.getCards())
-        permissionHelper = PermissionHelper(this.activity as AppCompatActivity)
-
     }
 
     override fun saveToStorage(url: String, language: String) {
         this.saveToStorageUrl = url
         val permissionViewModel = PermissionViewModel()
         permissionViewModel.explanation.set(getLocalizedResources(activity, language).getString(R.string.download_permission_explanation)!!)
-        val permitted = permissionHelper?.havePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
+        val permitted = permissionService.havePermission(this.activity as AppCompatActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
             it ?: false
         }
         if (permitted) {
@@ -97,7 +96,7 @@ class HomeFragment : Fragment(), HomeViewAction, FragmentPermissionReceiver {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            permissionHelper?.permissionToRequestCode(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+            permissionService?.permissionToRequestCode(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
                 if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
                     Timber.d("%s granted", permissions[0])
                     if (saveToStorageUrl != null) {

@@ -23,7 +23,12 @@ class ViewTypeMapper(dataHolderClass: Class<*>, @LayoutRes private val resLayout
 class FlexibleRecyclerViewAdapter(private val viewTypeMappers: List<ViewTypeMapper>, private val items: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
-        val inflater = LayoutInflater.from(parent!!.rootView.context)
+
+        val inflater = LayoutInflater.from(parent!!.context)
+
+
+
+        //val inflater = LayoutInflater.from(parent!!.rootView.context)
         val viewTypeMapper = viewTypeMappers.find { it.viewType == viewType }
         return if(viewTypeMapper != null) {
             viewTypeMapper.getViewHolder(inflater, parent)

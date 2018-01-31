@@ -1,15 +1,16 @@
 package se.paradoxia.pxdemo.home.di
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
+import org.mockito.Mockito
+import se.paradoxia.pxdemo.home.HomeViewModel
+import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.provider.RawResourceProvider
 import se.paradoxia.pxdemo.provider.SchedulerProvider
 import se.paradoxia.pxdemo.provider.SharedPreferencesProvider
-import se.paradoxia.pxdemo.service.ContentService
-import se.paradoxia.pxdemo.service.RawResourceService
-import se.paradoxia.pxdemo.service.SchedulerService
-import se.paradoxia.pxdemo.service.SharedPreferencesService
+import se.paradoxia.pxdemo.service.*
 import javax.inject.Singleton
 
 /**
@@ -43,5 +44,26 @@ class HomeTestAppModule(private val customContentService: ContentService) {
     @Provides
     @Singleton
     fun provideContentService(): ContentService = customContentService
+
+    @Provides
+    @Singleton
+    fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
+        return Mockito.spy(HomeViewModel(contentService, sharedPreferencesService))
+    }
+
+    @Provides
+    @Singleton
+    fun providePermissionService(): PermissionService {
+        return object : PermissionService {
+            override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
+                return true
+            }
+
+            override fun permissionToRequestCode(permission: String): Int {
+                return 0
+            }
+        }
+    }
+
 
 }

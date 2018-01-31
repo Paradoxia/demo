@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.databinding.ExplainPermissionBinding
+import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.Crc16
 import timber.log.Timber
 
@@ -17,9 +18,9 @@ import timber.log.Timber
  * Created by mikael on 2018-01-29.
  */
 
-class PermissionHelper(private val activity: AppCompatActivity) {
+class PermissionProvider : PermissionService {
 
-    fun havePermission(permission: String, viewModel: PermissionViewModel?): Boolean {
+    override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
 
         if (ContextCompat.checkSelfPermission(activity, permission)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -49,7 +50,7 @@ class PermissionHelper(private val activity: AppCompatActivity) {
 
     }
 
-    fun permissionToRequestCode(permission: String): Int {
+    override fun permissionToRequestCode(permission: String): Int {
         return Crc16().crc16(permission.toByteArray())
     }
 
