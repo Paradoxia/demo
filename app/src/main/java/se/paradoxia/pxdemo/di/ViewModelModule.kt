@@ -5,12 +5,14 @@ import dagger.Provides
 import se.paradoxia.pxdemo.home.HomeViewModel
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
+import se.paradoxia.pxdemo.util.AllOpen
 
+@AllOpen
 @Module
-class ViewModelModule {
+class ViewModelModule : ViewModelModuleInterface {
 
     @Provides
-    fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
+    override fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
         return HomeViewModel(contentService, sharedPreferencesService)
     }
 

@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import se.paradoxia.pxdemo.MainActivity
 
-@Module(includes = [ViewModelModule::class])
+@Module
 abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = [FragmentModule::class])

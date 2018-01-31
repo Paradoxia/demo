@@ -12,10 +12,12 @@ import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
+import se.paradoxia.pxdemo.util.AllOpen
 
 /**
  * Created by mikael on 2018-01-30.
  */
+@AllOpen
 @Module
 class TestViewModelModule {
 

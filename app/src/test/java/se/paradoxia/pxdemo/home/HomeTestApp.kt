@@ -1,20 +1,19 @@
-package se.paradoxia.pxdemo.di
+package se.paradoxia.pxdemo.home
 
 import android.app.Activity
 import android.app.Application
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import io.realm.Realm
 import se.paradoxia.pxdemo.util.AllOpen
 import javax.inject.Inject
 
 /**
- * Created by mikael on 2018-01-20.
+ * Created by mikael on 2018-01-30.
  */
+
 @AllOpen
-class App : Application(), HasActivityInjector {
+class HomeTestApp : Application(), HasActivityInjector {
 
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
@@ -23,29 +22,23 @@ class App : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-        initLeakCanary()
-        initRealm()
         initAppComponent()
     }
 
     private fun initAppComponent() {
-
-        DaggerAppComponent.builder()
-                .setViewModelModule(ViewModelModule())
+        /*DaggerHomeTestAppComponent.builder()
                 .application(this)
                 .build()
+                .inject(this)*/
+    }
+
+    fun setModules(testViewModelModule: TempViewModelModule) {
+
+        DaggerHomeTestAppComponent.builder()
+                .application(this)
+                .viewModelModule(testViewModelModule)
+                .build()
                 .inject(this)
-    }
-
-    private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return
-        }
-        LeakCanary.install(this)
-    }
-
-    private fun initRealm() {
-        Realm.init(this)
     }
 
 }

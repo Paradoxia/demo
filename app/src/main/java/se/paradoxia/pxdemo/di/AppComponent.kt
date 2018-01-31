@@ -9,7 +9,7 @@ import javax.inject.Singleton
  * Created by mikael on 2018-01-20.
  */
 @Singleton
-@Component(modules = [(AndroidInjectionModule::class), (AppModule::class), (ActivityModule::class)])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class,ActivityModule::class, ViewModelModuleInterface::class])
 interface AppComponent {
 
     @Component.Builder
@@ -17,8 +17,14 @@ interface AppComponent {
         @BindsInstance
         fun application(application: App): Builder
 
+        @BindsInstance
+        fun setViewModelModule(viewModelModule: ViewModelModuleInterface) : Builder
+
         fun build(): AppComponent
     }
 
     fun inject(app: App)
+    
 }
+
+
