@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.di
 
 import android.content.Context
 import dagger.Module
@@ -17,12 +17,6 @@ import javax.inject.Singleton
  */
 @Module
 class HomeTestAppModule(private val customContentService: ContentService) {
-
- /*   private var customContentService: ContentService? = null
-
-    constructor(customContentService: ContentService) {
-        this.customContentService = customContentService
-    }*/
 
     @Provides
     @Singleton
@@ -49,11 +43,5 @@ class HomeTestAppModule(private val customContentService: ContentService) {
     @Provides
     @Singleton
     fun provideContentService(): ContentService = customContentService
-
-/*    @Provides
-    @Singleton
-    fun provideContentService(schedulerService: SchedulerService, rawResourceService: RawResourceService): ContentService {
-        return ContentProvider(RestApi.create(), schedulerService, rawResourceService)
-    } */
 
 }

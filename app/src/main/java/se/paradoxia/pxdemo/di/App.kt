@@ -31,17 +31,15 @@ class App : Application(), HasActivityInjector {
     private fun initAppComponent() {
 
         DaggerAppComponent.builder()
-                .setViewModelModule(ViewModelModule())
                 .application(this)
                 .build()
                 .inject(this)
     }
 
     private fun initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return
+        if (!LeakCanary.isInAnalyzerProcess(this)) {
+            LeakCanary.install(this)
         }
-        LeakCanary.install(this)
     }
 
     private fun initRealm() {

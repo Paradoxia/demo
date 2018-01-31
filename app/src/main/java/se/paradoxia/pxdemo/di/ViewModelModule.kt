@@ -9,10 +9,10 @@ import se.paradoxia.pxdemo.util.AllOpen
 
 @AllOpen
 @Module
-class ViewModelModule : ViewModelModuleInterface {
+class ViewModelModule {
 
     @Provides
-    override fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
+    fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
         return HomeViewModel(contentService, sharedPreferencesService)
     }
 

@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.di
 
 import android.app.Activity
 import android.app.Application
@@ -20,10 +20,9 @@ class HomeTestApp : Application(), HasActivityInjector {
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 
-    fun setModules(homeTestAppModule : HomeTestAppModule,  viewModelModule: HomeTestViewModelModuleInterface) {
+    fun setModules(homeTestAppModule : HomeTestAppModule) {
         DaggerHomeTestAppComponent.builder()
                 .application(this)
-                .setViewModelModule(viewModelModule)
                 .setHomeTestAppModule(homeTestAppModule)
                 .build()
                 .inject(this)
