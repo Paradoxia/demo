@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import android.view.View
 import com.gojuno.koptional.Optional
+import io.reactivex.disposables.CompositeDisposable
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
@@ -12,7 +13,9 @@ import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.ViewTypeMapper
+import timber.log.Timber
 import javax.inject.Inject
+
 
 /**
  * Created by mikael on 2018-01-24.
@@ -24,11 +27,13 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
     // Important to lazy init properties because of Mock Spying
     // uses a different "this" instance
 
-    lateinit var cardProfileHeader : CardProfileHeader
-    lateinit var cardAboutMe : CardAboutMe
+    lateinit var cardProfileHeader: CardProfileHeader
+    lateinit var cardAboutMe: CardAboutMe
 
     var homeViewAction: HomeViewAction? = null
     var language: String? = null
+
+    val disposables = CompositeDisposable()
 
     fun init(homeViewAction: HomeViewAction, profileImageResourceUri: String) {
         cardProfileHeader = CardProfileHeader(this)
@@ -36,6 +41,12 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
         this.homeViewAction = homeViewAction
         cardProfileHeader.init(profileImageResourceUri)
         loadContent()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("onCleared called")
+        disposables.clear() // Killing off any active observable
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -65,19 +76,19 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
     internal fun loadContent() {
         language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")!!
 
-        contentService.fetchAboutMe().subscribe({ response: Optional<AboutMeResponse> ->
+        disposables.add(contentService.fetchAboutMe().subscribe({ response: Optional<AboutMeResponse> ->
             val aboutMeResponse: AboutMeResponse? = response.toNullable()
             if (aboutMeResponse != null) {
                 cardAboutMe.update(language!!, aboutMeResponse)
             }
-        })
+        }, { error -> Timber.e(error) }))
 
-        contentService.fetchInfoCard().subscribe({ response: Optional<InfoCardResponse> ->
+        disposables.add(contentService.fetchInfoCard().subscribe({ response: Optional<InfoCardResponse> ->
             val infoCardResponse: InfoCardResponse? = response.toNullable()
             if (infoCardResponse != null) {
                 cardProfileHeader.update(language!!, infoCardResponse)
             }
-        })
+        }, { error -> Timber.e(error) }))
 
     }
 

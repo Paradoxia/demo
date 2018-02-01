@@ -66,8 +66,6 @@ class HomeFragmentTest : RobolectricTestBase() {
     @Before
     override fun setUp() {
 
-        HomeFragmentLogic = interface = injectable = testable
-
         val app = RuntimeEnvironment.application as HomeTestApp
         val homeTestAppModule = HomeTestAppModule(localContentService)
         homeTestAppComponent = app.setModules(homeTestAppModule)
