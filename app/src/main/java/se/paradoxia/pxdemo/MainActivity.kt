@@ -2,13 +2,16 @@ package se.paradoxia.pxdemo
 
 import android.app.Fragment
 import android.app.FragmentManager
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.home.HomeFragment
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 import se.paradoxia.pxdemo.util.AllOpen
+import javax.inject.Inject
 
 @AllOpen
 class MainActivity : BaseActivity(), PermissionResultReceiver {

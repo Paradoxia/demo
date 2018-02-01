@@ -1,5 +1,6 @@
 package se.paradoxia.pxdemo.di
 
+import android.app.Application
 import dagger.Module
 import dagger.Provides
 import se.paradoxia.pxdemo.permission.PermissionProvider
@@ -18,13 +19,13 @@ class UtilModule {
 
     @Provides
     @Singleton
-    fun provideRawSourceService(app: App): RawResourceService {
+    fun provideRawSourceService(app: Application): RawResourceService {
         return RawResourceProvider(app)
     }
 
     @Provides
     @Singleton
-    fun provideSharedPreferencesService(app: App): SharedPreferencesService {
+    fun provideSharedPreferencesService(app: Application): SharedPreferencesService {
         return SharedPreferencesProvider(app)
     }
 

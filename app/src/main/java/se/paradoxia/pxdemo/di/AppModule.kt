@@ -1,6 +1,6 @@
 package se.paradoxia.pxdemo.di
 
-import android.content.Context
+import android.app.Application
 import dagger.Module
 import dagger.Provides
 import se.paradoxia.pxdemo.provider.SchedulerProvider
@@ -13,14 +13,9 @@ import javax.inject.Singleton
 @Module(includes = [RepositoryModule::class, UtilModule::class])
 class AppModule {
 
- /*   @Provides
-    @Singleton
-    fun provideApplication(app: App): Context = app*/
-
     @Provides
-    @AppContext
-//    @Singleton
-    fun provideAppContext(app: App): Context = app
+    @Singleton
+    fun provideApplication(app: App): Application = app
 
     @Provides
     @Singleton

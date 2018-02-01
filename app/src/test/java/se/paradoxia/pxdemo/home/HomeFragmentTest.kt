@@ -33,7 +33,7 @@ import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.PermissionService
-import se.paradoxia.pxdemo.service.RawResourceService
+import se.paradoxia.pxdemo.service.RouterService
 import javax.inject.Inject
 import kotlin.test.assertEquals
 
@@ -175,13 +175,13 @@ class HomeFragmentTest : RobolectricTestBase() {
 
 class StubMainActivity : MainActivity() {
 
-
     @Inject
     @field:ActivityContext
     lateinit var x: Context
 
     @Inject
-    lateinit var y: RawResourceService
+    lateinit var routerService: RouterService
+
 
     override fun getDefaultFragment(): Fragment {
 

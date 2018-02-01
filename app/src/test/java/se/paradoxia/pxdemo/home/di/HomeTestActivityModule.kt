@@ -7,6 +7,8 @@ import dagger.android.ContributesAndroidInjector
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.di.FragmentModule
 import se.paradoxia.pxdemo.home.StubMainActivity
+import se.paradoxia.pxdemo.provider.RouterProvider
+import se.paradoxia.pxdemo.service.RouterService
 
 
 /**
@@ -16,7 +18,7 @@ import se.paradoxia.pxdemo.home.StubMainActivity
 abstract class HomeTestActivityModule {
 
     @ActivityContext
-    @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class])
+    @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class, TestUIModule::class])
     abstract fun bindStubMainActivity(): StubMainActivity
 
     @Module
@@ -29,6 +31,16 @@ abstract class HomeTestActivityModule {
         }
 
     }
+
+    @Module
+    class TestUIModule {
+        @Provides
+        fun provideRouterService(@ActivityContext context: Context) : RouterService {
+            return RouterProvider(context)
+        }
+    }
+
+
 
 
 }
