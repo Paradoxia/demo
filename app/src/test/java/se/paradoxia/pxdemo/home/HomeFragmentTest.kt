@@ -1,9 +1,7 @@
 package se.paradoxia.pxdemo.home
 
 import android.app.Fragment
-import android.content.Context
 import android.os.Build.VERSION_CODES.N
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -17,26 +15,22 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.Mockito.mockingDetails
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 import se.paradoxia.pxdemo.*
-import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.home.di.HomeTestApp
 import se.paradoxia.pxdemo.home.di.HomeTestAppComponent
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
 import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
 import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
-import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.ContentService
-import se.paradoxia.pxdemo.service.PermissionService
-import se.paradoxia.pxdemo.service.RouterService
+import se.paradoxia.pxdemo.service.HomeViewLogic
 import javax.inject.Inject
 import kotlin.test.assertEquals
-
 
 // Due to problem with createConfigurationContext throwing exception with
 // any Robolectric version below N (24), sdk is set to "N"
@@ -48,7 +42,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
-    var homeTestAppComponent: HomeTestAppComponent? = null
+    private var homeTestAppComponent: HomeTestAppComponent? = null
 
     private val localContentService = object : ContentService {
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
@@ -61,7 +55,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     }
 
     private lateinit var activityController: ActivityController<StubMainActivity>
-    private lateinit var mainActivity: MainActivity
+    private lateinit var mainActivity: StubMainActivity
 
     @Inject
     lateinit var spiedHomeViewModel: HomeViewModel
@@ -90,7 +84,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     @Test
     fun shouldInitHomeViewModelAndAskForViewTypeMapsAndCards() {
 
-        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeLogic::class), any(String::class)) was called
+        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeViewLogicImpl::class), any(String::class)) was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getViewTypeMap() was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getCards() was called
 
@@ -154,6 +148,8 @@ class HomeFragmentTest : RobolectricTestBase() {
 
         Verify on spiedHomeViewModel that spiedHomeViewModel.saveToStorage(any(View::class)) was called
 
+        System.out.println(mockingDetails(mainActivity.homeViewLogic).printInvocations())
+
         val firstCount = recyclerView.childCount
         recyclerView.scrollToPosition(1)
         val secondCount = recyclerView.childCount
@@ -176,30 +172,12 @@ class HomeFragmentTest : RobolectricTestBase() {
 class StubMainActivity : MainActivity() {
 
     @Inject
-    @field:ActivityContext
-    lateinit var x: Context
-
-    @Inject
-    lateinit var routerService: RouterService
-
+    lateinit var homeViewLogic : HomeViewLogic
 
     override fun getDefaultFragment(): Fragment {
 
-        val customPermissionService = object : PermissionService {
-            override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
-                return true
-            }
+        return HomeFragment.newInstance()
 
-            override fun permissionToRequestCode(permission: String): Int {
-                return 0
-            }
-        }
-
-        val homeFragmentLogic = Mockito.spy(HomeLogic(customPermissionService))
-        return HomeFragment.newInstance(homeFragmentLogic)
-
-//        return super.getDefaultFragment()
-        //return Mockito.spy(super.getDefaultFragment())
     }
 }
 

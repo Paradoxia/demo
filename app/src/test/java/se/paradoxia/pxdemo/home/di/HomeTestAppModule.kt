@@ -23,22 +23,6 @@ class HomeTestAppModule(private val customContentService: ContentService) {
     @Singleton
     fun provideApplication(app: HomeTestApp): Application = app
 
-  /*  @Module
-    abstract class XAppModule {
-        @Singleton
-        @AppContext
-        @Binds
-        abstract fun bindsContext(app: HomeTestApp): Context
-    }
-
-    @Module
-    abstract class YAppModule {
-        @Singleton
-        @ActivityContext
-        @Binds
-        abstract fun bindsContext(activity: StubMainActivity): Context
-    } */
-
     @Provides
     @Singleton
     fun provideSchedulerService(): SchedulerService {

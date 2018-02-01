@@ -13,24 +13,20 @@ import android.os.Environment
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.permission.PermissionResultReceiver
+import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.permission.PermissionViewModel
+import se.paradoxia.pxdemo.service.HomeViewLogic
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by mikael on 2018-01-31.
  */
 @AllOpen
-class HomeLogic(private val permissionService: PermissionService) : HomeViewAction, PermissionResultReceiver {
-
-    private var activity: AppCompatActivity? = null
-
-    fun setActivity(activity: AppCompatActivity) {
-        this.activity = activity
-    }
+class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Context, val permissionService: PermissionService) : HomeViewLogic {
 
     private var saveToStorageUrl: String? = null
 
@@ -50,19 +46,19 @@ class HomeLogic(private val permissionService: PermissionService) : HomeViewActi
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun download(url: String) {
+    override fun download(url: String) {
         val uri = Uri.parse(url)
         val fileName = uri.lastPathSegment
         val request = DownloadManager.Request(uri)
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
         request.allowScanningByMediaScanner()
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        val downloadManager = activity!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(request)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getLocalizedResources(context: Context, language: String): Resources {
+    override fun getLocalizedResources(context: Context, language: String): Resources {
         val locale = Locale(language)
         val configuration = Configuration(context.resources.configuration)
         configuration.setLocale(locale)
@@ -73,8 +69,8 @@ class HomeLogic(private val permissionService: PermissionService) : HomeViewActi
     override fun saveToStorage(url: String, language: String) {
         this.saveToStorageUrl = url
         val permissionViewModel = PermissionViewModel()
-        permissionViewModel.explanation.set(getLocalizedResources(activity!!, language).getString(R.string.download_permission_explanation)!!)
-        val permitted = permissionService.havePermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
+        permissionViewModel.explanation.set(getLocalizedResources(context, language).getString(R.string.download_permission_explanation)!!)
+        val permitted = permissionService.havePermission(context as AppCompatActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
             it ?: false
         }
         if (permitted) {
@@ -87,7 +83,7 @@ class HomeLogic(private val permissionService: PermissionService) : HomeViewActi
         try {
             val externalSiteIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             externalSiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
-            activity!!.startActivity(externalSiteIntent)
+            context.startActivity(externalSiteIntent)
         } catch (ex: ActivityNotFoundException) {
             Timber.e(ex)
         }

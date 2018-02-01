@@ -4,11 +4,13 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
+import org.mockito.Mockito
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.di.FragmentModule
+import se.paradoxia.pxdemo.home.HomeViewLogicImpl
 import se.paradoxia.pxdemo.home.StubMainActivity
-import se.paradoxia.pxdemo.provider.RouterProvider
-import se.paradoxia.pxdemo.service.RouterService
+import se.paradoxia.pxdemo.service.HomeViewLogic
+import se.paradoxia.pxdemo.service.PermissionService
 
 
 /**
@@ -18,8 +20,12 @@ import se.paradoxia.pxdemo.service.RouterService
 abstract class HomeTestActivityModule {
 
     @ActivityContext
-    @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class, TestUIModule::class])
+    @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class])
     abstract fun bindStubMainActivity(): StubMainActivity
+
+    companion object {
+        var spiedHomeViewLogic : HomeViewLogic? = null
+    }
 
     @Module
     object StubMainActivityModule {
@@ -30,17 +36,17 @@ abstract class HomeTestActivityModule {
             return activity
         }
 
-    }
-
-    @Module
-    class TestUIModule {
+        // Can't use @Singleton scope since it conflict with @ActivityContext scope. Solving it using static declaration
         @Provides
-        fun provideRouterService(@ActivityContext context: Context) : RouterService {
-            return RouterProvider(context)
+        @JvmStatic
+        fun provideHomeViewLogic(@ActivityContext context: Context, permissionService: PermissionService): HomeViewLogic {
+            if(spiedHomeViewLogic == null) {
+                spiedHomeViewLogic = Mockito.spy(HomeViewLogicImpl(context, permissionService))
+            }
+            return spiedHomeViewLogic!!
         }
+
     }
-
-
 
 
 }
