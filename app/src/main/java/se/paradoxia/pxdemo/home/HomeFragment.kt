@@ -12,6 +12,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_home.*
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
+import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
@@ -22,7 +23,7 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-24.
  */
 @AllOpen
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), PermissionResultReceiver {
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var permissionService: PermissionService
 
-    var homeFragmentLogic: HomeFragmentLogic? = null
+    var homeFragmentLogic: HomeLogic? = null
 
     companion object {
         fun newInstance(): Fragment {
@@ -38,7 +39,7 @@ class HomeFragment : Fragment() {
             return homeFragment
         }
 
-        fun newInstance(homeFragmentLogic: HomeFragmentLogic): Fragment {
+        fun newInstance(homeFragmentLogic: HomeLogic): Fragment {
             val homeFragment = HomeFragment()
             homeFragment.homeFragmentLogic = homeFragmentLogic
             return homeFragment
@@ -51,7 +52,7 @@ class HomeFragment : Fragment() {
         retainInstance = true
         AndroidInjection.inject(this)
         if (homeFragmentLogic == null) {
-            this.homeFragmentLogic = HomeFragmentLogic(permissionService)
+            this.homeFragmentLogic = HomeLogic(permissionService)
             this.homeFragmentLogic!!.setActivity(this.activity as AppCompatActivity)
         } else {
             this.homeFragmentLogic!!.setActivity(this.activity as AppCompatActivity)
@@ -73,6 +74,7 @@ class HomeFragment : Fragment() {
         recViewHome.adapter = FlexibleRecyclerViewAdapter(homeViewModel.getViewTypeMap(), homeViewModel.getCards())
     }
 
+    // (Activity) -> (This Fragment) onRequestPermissionsResult -> (HomeFragmentLogic) onRequestPermissionsResult
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         homeFragmentLogic!!.onRequestPermissionsResult(requestCode, permissions, grantResults)

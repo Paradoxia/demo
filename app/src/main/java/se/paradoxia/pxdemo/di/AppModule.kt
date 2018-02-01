@@ -13,9 +13,14 @@ import javax.inject.Singleton
 @Module(includes = [RepositoryModule::class, UtilModule::class])
 class AppModule {
 
-    @Provides
+ /*   @Provides
     @Singleton
-    fun provideApplication(app: App): Context = app
+    fun provideApplication(app: App): Context = app*/
+
+    @Provides
+    @AppContext
+//    @Singleton
+    fun provideAppContext(app: App): Context = app
 
     @Provides
     @Singleton

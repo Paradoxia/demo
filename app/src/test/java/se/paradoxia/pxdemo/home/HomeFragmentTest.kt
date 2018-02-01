@@ -1,6 +1,7 @@
 package se.paradoxia.pxdemo.home
 
 import android.app.Fragment
+import android.content.Context
 import android.os.Build.VERSION_CODES.N
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
@@ -23,6 +24,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
 import se.paradoxia.pxdemo.*
+import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.home.di.HomeTestApp
 import se.paradoxia.pxdemo.home.di.HomeTestAppComponent
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
@@ -31,6 +33,7 @@ import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
 import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.PermissionService
+import se.paradoxia.pxdemo.service.RawResourceService
 import javax.inject.Inject
 import kotlin.test.assertEquals
 
@@ -45,7 +48,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
-    var homeTestAppComponent : HomeTestAppComponent? = null
+    var homeTestAppComponent: HomeTestAppComponent? = null
 
     private val localContentService = object : ContentService {
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
@@ -87,7 +90,7 @@ class HomeFragmentTest : RobolectricTestBase() {
     @Test
     fun shouldInitHomeViewModelAndAskForViewTypeMapsAndCards() {
 
-        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeFragmentLogic::class), any(String::class)) was called
+        Verify on spiedHomeViewModel that spiedHomeViewModel.init(any(HomeLogic::class), any(String::class)) was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getViewTypeMap() was called
         Verify on spiedHomeViewModel that spiedHomeViewModel.getCards() was called
 
@@ -172,9 +175,17 @@ class HomeFragmentTest : RobolectricTestBase() {
 
 class StubMainActivity : MainActivity() {
 
+
+    @Inject
+    @field:ActivityContext
+    lateinit var x: Context
+
+    @Inject
+    lateinit var y: RawResourceService
+
     override fun getDefaultFragment(): Fragment {
 
-        val customPermissionService = object:PermissionService {
+        val customPermissionService = object : PermissionService {
             override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
                 return true
             }
@@ -184,7 +195,7 @@ class StubMainActivity : MainActivity() {
             }
         }
 
-        val homeFragmentLogic = Mockito.spy(HomeFragmentLogic(customPermissionService))
+        val homeFragmentLogic = Mockito.spy(HomeLogic(customPermissionService))
         return HomeFragment.newInstance(homeFragmentLogic)
 
 //        return super.getDefaultFragment()

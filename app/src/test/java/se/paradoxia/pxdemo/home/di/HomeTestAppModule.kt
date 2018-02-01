@@ -1,6 +1,6 @@
 package se.paradoxia.pxdemo.home.di
 
-import android.content.Context
+import android.app.Application
 import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,23 @@ class HomeTestAppModule(private val customContentService: ContentService) {
 
     @Provides
     @Singleton
-    fun provideApplication(app: HomeTestApp): Context = app
+    fun provideApplication(app: HomeTestApp): Application = app
+
+  /*  @Module
+    abstract class XAppModule {
+        @Singleton
+        @AppContext
+        @Binds
+        abstract fun bindsContext(app: HomeTestApp): Context
+    }
+
+    @Module
+    abstract class YAppModule {
+        @Singleton
+        @ActivityContext
+        @Binds
+        abstract fun bindsContext(activity: StubMainActivity): Context
+    } */
 
     @Provides
     @Singleton

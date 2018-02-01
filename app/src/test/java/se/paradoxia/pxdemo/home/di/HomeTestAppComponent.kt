@@ -26,6 +26,7 @@ interface HomeTestAppComponent {
 
     fun inject(app: HomeTestApp)
 
+    // We want to inject into our Test to get a copy of the spied HomeViewModel
     fun inject(any: HomeFragmentTest)
 
 }

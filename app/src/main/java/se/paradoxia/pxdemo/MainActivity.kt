@@ -5,30 +5,15 @@ import android.app.FragmentManager
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import se.paradoxia.pxdemo.home.HomeFragment
-import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
+import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 import se.paradoxia.pxdemo.util.AllOpen
-import se.paradoxia.pxdemo.util.CustomDebugTree
-import se.paradoxia.pxdemo.util.ReleaseTree
-import timber.log.Timber
-import javax.inject.Inject
 
 @AllOpen
-class MainActivity : AppCompatActivity(), HasFragmentInjector {
-
-    // Activity is responsible for Fragment injections
-    @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+class MainActivity : BaseActivity(), PermissionResultReceiver {
 
     var activeFragment: Fragment? = null
-
-    override fun fragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -50,23 +35,17 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // Must be done BEFORE super.onCreate so fragmentInjector is available to restored sub views (fragments etc.)
-        AndroidInjection.inject(this)
-
         super.onCreate(savedInstanceState)
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(CustomDebugTree())
-        } else {
-            Timber.plant(ReleaseTree())
-        }
 
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        addFragmentToActivity(fragmentManager, getDefaultFragment(), R.id.flPage)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        addFragmentToActivity(fragmentManager, getDefaultFragment(), R.id.flPage)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -82,10 +61,11 @@ class MainActivity : AppCompatActivity(), HasFragmentInjector {
         this.activeFragment = fragment
     }
 
+    // (This Activity) onRequestPermissionsResult -> (Active Fragment) onRequestPermissionsResult -> (SomeReceiverLogic) onRequestPermissionsResult
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (this.activeFragment is FragmentPermissionReceiver) {
-            (this.activeFragment as FragmentPermissionReceiver).onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (this.activeFragment is PermissionResultReceiver) {
+            (this.activeFragment as PermissionResultReceiver).onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 }

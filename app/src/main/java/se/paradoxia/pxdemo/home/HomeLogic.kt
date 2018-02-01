@@ -13,7 +13,7 @@ import android.os.Environment
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.permission.FragmentPermissionReceiver
+import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
@@ -24,7 +24,7 @@ import java.util.*
  * Created by mikael on 2018-01-31.
  */
 @AllOpen
-class HomeFragmentLogic(private val permissionService: PermissionService) : HomeViewAction, FragmentPermissionReceiver {
+class HomeLogic(private val permissionService: PermissionService) : HomeViewAction, PermissionResultReceiver {
 
     private var activity: AppCompatActivity? = null
 
