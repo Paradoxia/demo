@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
@@ -7,8 +7,11 @@ import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
-import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.home.view.AboutMeViewHolder
+import se.paradoxia.pxdemo.home.view.HomeViewAction
+import se.paradoxia.pxdemo.home.view.ProfileHeaderViewHolder
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
@@ -97,10 +100,10 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
     fun getViewTypeMap() = listOf(
             ViewTypeMapper(CardAboutMe::class.java,
                     R.layout.card_about_me,
-                    CardAboutMeViewHolder::class.java),
+                    AboutMeViewHolder::class.java),
             ViewTypeMapper(CardProfileHeader::class.java,
                     R.layout.card_profile_header,
-                    CardProfileHeaderViewHolder::class.java)
+                    ProfileHeaderViewHolder::class.java)
     )
 
     class CardProfileHeader(val homeViewModel: HomeViewModel) {

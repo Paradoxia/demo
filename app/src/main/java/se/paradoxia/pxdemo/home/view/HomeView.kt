@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.view
 
 import android.app.Fragment
 import android.net.Uri
@@ -11,9 +11,8 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_home.*
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
+import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
-import se.paradoxia.pxdemo.service.HomeViewLogic
-import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import javax.inject.Inject
@@ -23,21 +22,17 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-24.
  */
 @AllOpen
-class HomeFragment : Fragment(), PermissionResultReceiver {
+class HomeView : Fragment(), PermissionResultReceiver {
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
-
-    @Inject
-    lateinit var permissionService: PermissionService
 
     @Inject
     lateinit var homeViewLogic: HomeViewLogic
 
     companion object {
         fun newInstance(): Fragment {
-            val homeFragment = HomeFragment()
-            return homeFragment
+            return HomeView()
         }
     }
 

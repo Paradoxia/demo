@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.view
 
 /**
  * Created by mikael on 2018-01-29.

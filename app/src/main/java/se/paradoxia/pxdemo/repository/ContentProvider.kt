@@ -8,8 +8,8 @@ import io.reactivex.Observable
 import io.realm.RealmObject
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.api.RestApi
-import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
-import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.realm.RealmHelper
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.RawResourceService

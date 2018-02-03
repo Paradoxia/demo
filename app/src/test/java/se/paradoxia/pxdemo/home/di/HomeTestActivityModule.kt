@@ -7,9 +7,9 @@ import dagger.android.ContributesAndroidInjector
 import org.mockito.Mockito
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.di.FragmentModule
-import se.paradoxia.pxdemo.home.HomeViewLogicImpl
 import se.paradoxia.pxdemo.home.StubMainActivity
-import se.paradoxia.pxdemo.service.HomeViewLogic
+import se.paradoxia.pxdemo.home.view.HomeViewLogic
+import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.service.PermissionService
 
 
@@ -23,10 +23,6 @@ abstract class HomeTestActivityModule {
     @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class])
     abstract fun bindStubMainActivity(): StubMainActivity
 
-    companion object {
-        var spiedHomeViewLogic : HomeViewLogic? = null
-    }
-
     @Module
     object StubMainActivityModule {
         @Provides
@@ -36,17 +32,13 @@ abstract class HomeTestActivityModule {
             return activity
         }
 
-        // Can't use @Singleton scope since it conflict with @ActivityContext scope. Solving it using static declaration
         @Provides
         @JvmStatic
         fun provideHomeViewLogic(@ActivityContext context: Context, permissionService: PermissionService): HomeViewLogic {
-            if(spiedHomeViewLogic == null) {
-                spiedHomeViewLogic = Mockito.spy(HomeViewLogicImpl(context, permissionService))
-            }
+            val spiedHomeViewLogic = Mockito.spy(HomeViewLogicImpl(context, permissionService))
             return spiedHomeViewLogic!!
         }
 
     }
-
 
 }

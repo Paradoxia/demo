@@ -13,10 +13,14 @@ import org.hamcrest.beans.SamePropertyValuesAs
 import org.junit.Test
 import org.mockito.Mockito
 import se.paradoxia.pxdemo.BuildConfig
+import se.paradoxia.pxdemo.Junit4TestBase
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.TestBase
-import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
-import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.home.view.AboutMeViewHolder
+import se.paradoxia.pxdemo.home.view.HomeViewAction
+import se.paradoxia.pxdemo.home.view.ProfileHeaderViewHolder
+import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.rawResourceToInstance
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
@@ -27,7 +31,7 @@ import kotlin.test.assertNull
 /**
  * Created by mikael on 2018-01-29.
  */
-class HomeViewModelTest : TestBase() {
+class HomeViewModelTest : Junit4TestBase() {
 
     var contentService: ContentService? = null
     var testScheduler: TestScheduler? = null
@@ -78,10 +82,10 @@ class HomeViewModelTest : TestBase() {
         val expectedViewTypeMaps = listOf(
                 ViewTypeMapper(HomeViewModel.CardAboutMe::class.java,
                         R.layout.card_about_me,
-                        CardAboutMeViewHolder::class.java),
+                        AboutMeViewHolder::class.java),
                 ViewTypeMapper(HomeViewModel.CardProfileHeader::class.java,
                         R.layout.card_profile_header,
-                        CardProfileHeaderViewHolder::class.java))
+                        ProfileHeaderViewHolder::class.java))
         val actualViewTypMaps = homeViewModel!!.getViewTypeMap()
 
         expectedViewTypeMaps.forEachIndexed { index, expectedViewTypeMap ->

@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import se.paradoxia.pxdemo.MainActivity
-import se.paradoxia.pxdemo.home.HomeViewLogicImpl
-import se.paradoxia.pxdemo.service.HomeViewLogic
+import se.paradoxia.pxdemo.home.view.HomeViewLogic
+import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.service.PermissionService
 
 @Module

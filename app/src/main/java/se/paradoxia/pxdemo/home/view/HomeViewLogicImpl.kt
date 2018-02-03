@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.home
+package se.paradoxia.pxdemo.home.view
 
 import android.Manifest
 import android.app.DownloadManager
@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.permission.PermissionViewModel
-import se.paradoxia.pxdemo.service.HomeViewLogic
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
 import timber.log.Timber
@@ -47,6 +46,9 @@ class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Contex
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     override fun download(url: String) {
+
+        println("\t\t\tHomeViewLogic $permissionService")
+
         val uri = Uri.parse(url)
         val fileName = uri.lastPathSegment
         val request = DownloadManager.Request(uri)

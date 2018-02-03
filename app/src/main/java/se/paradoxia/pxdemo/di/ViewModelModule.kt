@@ -2,7 +2,7 @@ package se.paradoxia.pxdemo.di
 
 import dagger.Module
 import dagger.Provides
-import se.paradoxia.pxdemo.home.HomeViewModel
+import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen

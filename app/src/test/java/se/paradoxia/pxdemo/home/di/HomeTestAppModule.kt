@@ -1,12 +1,10 @@
 package se.paradoxia.pxdemo.home.di
 
 import android.app.Application
-import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import org.mockito.Mockito
-import se.paradoxia.pxdemo.home.HomeViewModel
-import se.paradoxia.pxdemo.permission.PermissionViewModel
+import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.provider.RawResourceProvider
 import se.paradoxia.pxdemo.provider.SchedulerProvider
 import se.paradoxia.pxdemo.provider.SharedPreferencesProvider
@@ -17,7 +15,7 @@ import javax.inject.Singleton
  * Created by mikael on 2018-01-31.
  */
 @Module
-class HomeTestAppModule(private val customContentService: ContentService) {
+class HomeTestAppModule(private val customContentService: ContentService, private val customPermissionService: PermissionService) {
 
     @Provides
     @Singleton
@@ -54,15 +52,7 @@ class HomeTestAppModule(private val customContentService: ContentService) {
     @Provides
     @Singleton
     fun providePermissionService(): PermissionService {
-        return object : PermissionService {
-            override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
-                return true
-            }
-
-            override fun permissionToRequestCode(permission: String): Int {
-                return 0
-            }
-        }
+        return customPermissionService
     }
 
 

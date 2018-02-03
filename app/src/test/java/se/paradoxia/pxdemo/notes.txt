@@ -1,0 +1,5 @@
+=== Printing out invocations against Mocked/Spied instance ===
+
+import org.mockito.Mockito.mockingDetails
+mockingDetails([MOCKED INSTANCE]).printInvocations()
+mockingDetails([MOCKED INSTANCE]).printInvocations()

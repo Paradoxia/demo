@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
  * Created by mikael on 2018-01-30.
  */
 @RunWith(AndroidJUnit4::class)
-class HomeFragmentTest {
+class HomeViewTest {
 
     @Test
     fun useAppContext() {

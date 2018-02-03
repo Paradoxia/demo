@@ -2,8 +2,8 @@ package se.paradoxia.pxdemo.api
 
 import io.reactivex.Observable
 import se.paradoxia.pxdemo.BuildConfig
-import se.paradoxia.pxdemo.model.aboutme.AboutMeResponse
-import se.paradoxia.pxdemo.model.infocard.InfoCardResponse
+import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 
 /**
  * Created by mikael on 2018-01-20.

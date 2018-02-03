@@ -1,4 +1,4 @@
-package se.paradoxia.pxdemo.model.infocard
+package se.paradoxia.pxdemo.home.model.aboutme
 
 import com.google.gson.annotations.SerializedName
 import io.realm.RealmObject

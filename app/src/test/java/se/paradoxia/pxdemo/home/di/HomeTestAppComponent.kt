@@ -3,7 +3,6 @@ package se.paradoxia.pxdemo.home.di
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import se.paradoxia.pxdemo.home.HomeFragmentTest
 import javax.inject.Singleton
 
 /**
@@ -25,8 +24,5 @@ interface HomeTestAppComponent {
     }
 
     fun inject(app: HomeTestApp)
-
-    // We want to inject into our Test to get a copy of the spied HomeViewModel
-    fun inject(any: HomeFragmentTest)
 
 }

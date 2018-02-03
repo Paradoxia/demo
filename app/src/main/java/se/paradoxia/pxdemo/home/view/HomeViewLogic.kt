@@ -1,8 +1,7 @@
-package se.paradoxia.pxdemo.service
+package se.paradoxia.pxdemo.home.view
 
 import android.content.Context
 import android.content.res.Resources
-import se.paradoxia.pxdemo.home.HomeViewAction
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 
 /**
