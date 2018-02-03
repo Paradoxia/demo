@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import org.mockito.Mockito
+import se.paradoxia.pxdemo.MainActivity
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.di.FragmentModule
-import se.paradoxia.pxdemo.home.StubMainActivity
 import se.paradoxia.pxdemo.home.view.HomeViewLogic
 import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.service.PermissionService
@@ -21,14 +21,14 @@ abstract class HomeTestActivityModule {
 
     @ActivityContext
     @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class])
-    abstract fun bindStubMainActivity(): StubMainActivity
+    abstract fun bindStubMainActivity(): MainActivity
 
     @Module
     object StubMainActivityModule {
         @Provides
         @ActivityContext
         @JvmStatic
-        fun provideActivityContext(activity: StubMainActivity): Context {
+        fun provideActivityContext(activity: MainActivity): Context {
             return activity
         }
 

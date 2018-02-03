@@ -1,6 +1,5 @@
 package se.paradoxia.pxdemo.home
 
-import android.app.Fragment
 import android.os.Build.VERSION_CODES.N
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
@@ -38,7 +37,6 @@ import se.paradoxia.pxdemo.permission.PermissionViewModel
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
-import javax.inject.Inject
 import kotlin.test.assertEquals
 
 // Due to problem with createConfigurationContext throwing exception with
@@ -52,8 +50,8 @@ class HomeViewTest : RobolectricTestBase() {
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
 
     private var homeTestAppComponent: HomeTestAppComponent? = null
-    private var activityController: ActivityController<StubMainActivity>? = null
-    private var stubMainActivity: StubMainActivity? = null
+    private var activityController: ActivityController<MainActivity>? = null
+    private var mainActivity: MainActivity? = null
 
     private val localContentService = object : ContentService {
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
@@ -88,37 +86,37 @@ class HomeViewTest : RobolectricTestBase() {
         homeTestAppComponent = app.setModules(homeTestAppModule)
         homeTestAppComponent!!.inject(app)
 
-        activityController = Robolectric.buildActivity(StubMainActivity::class.java)
-        stubMainActivity = activityController!!.setup().get()
+        activityController = Robolectric.buildActivity(MainActivity::class.java)
+        mainActivity = activityController!!.setup().get()
 
     }
 
     @After
     override fun tearDown() {
         activityController!!.pause().stop().destroy()
-        stubMainActivity!!.finish()
+        mainActivity!!.finish()
         finishThreads()
         activityController = null
-        stubMainActivity = null
+        mainActivity = null
         homeTestAppComponent = null
     }
 
-    private fun extractHomeViewModel(stubMainActivity : StubMainActivity?) : HomeViewModel {
-        return stubMainActivity!!.spiedHomeViewModel
+    private fun extractHomeViewModel(stubMainActivity : MainActivity?) : HomeViewModel {
+        return (stubMainActivity!!.activeFragment as HomeView).homeViewModel
     }
 
-    private fun extractHomeViewLogic(stubMainActivity : StubMainActivity?) : HomeViewLogic {
+    private fun extractHomeViewLogic(stubMainActivity : MainActivity?) : HomeViewLogic {
         return (stubMainActivity!!.activeFragment as HomeView).homeViewLogic
     }
 
-    private fun extractPermissionServiceFromHomeViewLogic(stubMainActivity : StubMainActivity?) : PermissionService {
+    private fun extractPermissionService(stubMainActivity : MainActivity?) : PermissionService {
         return ((stubMainActivity!!.activeFragment as HomeView).homeViewLogic as HomeViewLogicImpl).permissionService
     }
 
     @Test
     fun shouldInteractWithViewModelAndInitGetViewTypeMapAndGetCards() {
 
-        val homeViewModel = extractHomeViewModel(stubMainActivity)
+        val homeViewModel = extractHomeViewModel(mainActivity)
 
         Verify on homeViewModel that homeViewModel.init(any(HomeViewLogicImpl::class), any(String::class)) was called
         Verify on homeViewModel that homeViewModel.getViewTypeMap() was called
@@ -129,7 +127,7 @@ class HomeViewTest : RobolectricTestBase() {
     @Test
     fun shouldBeEnglishInProfileHeaderTextViewsByDefault() {
 
-        val recyclerView: RecyclerView = stubMainActivity!!.findViewById(R.id.recViewHome)
+        val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
         val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
         val profileHeaderName = viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderName).text.toString()
@@ -145,7 +143,7 @@ class HomeViewTest : RobolectricTestBase() {
     @Test
     fun shouldBeEnglishInAboutMeTextViewsByDefault() {
 
-        val recyclerView: RecyclerView = stubMainActivity!!.findViewById(R.id.recViewHome)
+        val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
         // Scroll to "second" card
         recyclerView.scrollToPosition(1)
@@ -165,7 +163,7 @@ class HomeViewTest : RobolectricTestBase() {
     @Test
     fun shouldBeSwedishInProfileHeaderTextViewsAfterLanguageChange() {
 
-        val recyclerView: RecyclerView = stubMainActivity!!.findViewById(R.id.recViewHome)
+        val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
         // Scroll to "second" card
         val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
@@ -173,7 +171,7 @@ class HomeViewTest : RobolectricTestBase() {
 
         viewHolderProfileHeader.itemView.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
 
-        Verify on extractHomeViewModel(stubMainActivity) that extractHomeViewModel(stubMainActivity).selectLangSV(any(View::class)) was called
+        Verify on extractHomeViewModel(mainActivity) that extractHomeViewModel(mainActivity).selectLangSV(any(View::class)) was called
 
         val profileHeaderRole = viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderRole).text.toString()
         val profileHeaderDownloadCV = viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.btProfileHeaderDownload).text.toString()
@@ -188,7 +186,7 @@ class HomeViewTest : RobolectricTestBase() {
     @Test
     fun shouldBeSwedishInAboutMeTextViewsByDefault() {
 
-        val recyclerView: RecyclerView = stubMainActivity!!.findViewById(R.id.recViewHome)
+        val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
         val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
         viewHolderProfileHeader.itemView.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
 
@@ -209,49 +207,31 @@ class HomeViewTest : RobolectricTestBase() {
     @Test
     fun shouldTriggerPermissionCheckAndDownloadWhen() {
 
-        val recyclerView: RecyclerView = stubMainActivity!!.findViewById(R.id.recViewHome)
+        val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
         val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
         val downloadBtn = viewHolderProfileHeader.itemView.findViewById<View>(R.id.btProfileHeaderDownload)
         downloadBtn.callOnClick()
 
-        //System.out.println(mockingDetails(stubMainActivity.spiedHomeViewLogic).printInvocations())
+        //System.out.println(mockingDetails(mainActivity.spiedHomeViewLogic).printInvocations())
 
-        val homeViewLogic = extractHomeViewLogic(stubMainActivity)
+        val homeViewLogic = extractHomeViewLogic(mainActivity)
 
-        Verify on extractHomeViewModel(stubMainActivity) that extractHomeViewModel(stubMainActivity).saveToStorage(any(View::class)) was called
+        Verify on extractHomeViewModel(mainActivity) that extractHomeViewModel(mainActivity).saveToStorage(any(View::class)) was called
 
         Verify on homeViewLogic that homeViewLogic.saveToStorage(eq(BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile!!.en!!), eq("en")) was called
-        Verify on homeViewLogic that homeViewLogic.getLocalizedResources(any(StubMainActivity::class), eq("en")) was called
+        Verify on homeViewLogic that homeViewLogic.getLocalizedResources(any(MainActivity::class), eq("en")) was called
         Verify on homeViewLogic that homeViewLogic.download(eq(BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile!!.en!!)) was called
 
 
-        val permissionService = extractPermissionServiceFromHomeViewLogic(stubMainActivity)
+        val permissionService = extractPermissionService(mainActivity)
         System.out.println(mockingDetails(permissionService).printInvocations())
 
-        Verify on permissionService that permissionService.havePermission(any(StubMainActivity::class), eq("android.permission.WRITE_EXTERNAL_STORAGE"), any(PermissionViewModel::class)) was called
+        Verify on permissionService that permissionService.havePermission(any(MainActivity::class), eq("android.permission.WRITE_EXTERNAL_STORAGE"), any(PermissionViewModel::class)) was called
 
 
     }
 
 }
-
-class StubMainActivity : MainActivity() {
-
-    @Inject
-    lateinit var spiedHomeViewLogic: HomeViewLogic
-
-    @Inject
-    lateinit var spiedHomeViewModel: HomeViewModel
-
-    override fun getDefaultFragment(): Fragment {
-
-        return HomeView.newInstance()
-
-    }
-
-}
-
-
 
 
 

@@ -16,6 +16,8 @@ apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 // https://github.com/vanniktech/lint-rules/blob/d580e7cbd30603c51e7e01490ed5deeeb6364de5/build.gradle
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -95,10 +97,30 @@ kapt {
 }
 
 junitJacoco {
-    jacocoVersion = '0.7.2.201409121644' // type String
-    ignoreProjects = [] // type String array
-    excludes // type String List
-    includeNoLocationClasses = false // type boolean
+    jacocoVersion = '0.7.2.201409121644'
+    ignoreProjects = []
+    excludes = ['**/R.class',
+                '**/R$*.class',
+                '**/android/databinding/*',
+                '**/*$ViewInjector*.*',
+                '**/*$ViewBinder*.*',
+                '**/BuildConfig.*',
+                '**/*Application*.*',
+                '**/*Component*.*',
+                '**/UiUtils.*',
+                '**/*Binding*.*',
+                '**/*Retrofit*.*',
+                '**/*BR*.*',
+                '**/io/realm/*',
+                '**/*Rx*.*',
+                '**/Manifest*.*',
+                '**/*$Lambda$*.*',
+                '**/*Module.*',
+                '**/*Dagger*.*',
+                '**/*MembersInjector*.*',
+                '**/*_Provide*Factory*.*',
+                '**/*_Factory*.*']
+    includeNoLocationClasses = false
 }
 
 dependencies {
@@ -174,10 +196,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
 
+    implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+        transitive = true
+    }
 
     // Dagger
     testImplementation 'com.google.dagger:dagger-android:2.14.1'
-    testImplementation ('com.google.dagger:dagger-android-support:2.14.1') {
+    testImplementation('com.google.dagger:dagger-android-support:2.14.1') {
         exclude group: 'com.android.support'
     }
     // if you use the support libraries
