@@ -59,11 +59,11 @@ inline fun <reified E> fetchContentLocallyAndExternally(crossinline realmFetcher
     val fetchFromClient = Observable.create<Any> { emitter ->
         val realmObject: RealmObject? = realmFetcher()
         if (realmObject != null) {
-            Timber.d("Fetched \"[${realmObject.javaClass.name}]\" content from realm")
+            Timber.d("Fetched \"[${realmObject.javaClass.simpleName}]\" content from realm")
             emitter.onNext(realmObject.toOptional())
         } else {
             val localObject = rawResourceService.readJson(resId, responseClass)
-            Timber.d("Fetched \"[${localObject.javaClass.name}]\" content from resources")
+            Timber.d("Fetched \"[${localObject.javaClass.simpleName}]\" content from resources")
             emitter.onNext(localObject.toOptional())
         }
         emitter.onComplete()
@@ -72,7 +72,7 @@ inline fun <reified E> fetchContentLocallyAndExternally(crossinline realmFetcher
     val fetchFromServer = restApiMethod
             .subscribeOn(schedulerService.io())
             .flatMap { response: RealmObject ->
-                Timber.d("Fetched \"[${response.javaClass.name}]\" content from server")
+                Timber.d("Fetched \"[${response.javaClass.simpleName}]\" content from server")
                 realmSaver(response)
                 Observable.create<Optional<Any>> { emitter ->
                     emitter.onNext(response.toOptional())

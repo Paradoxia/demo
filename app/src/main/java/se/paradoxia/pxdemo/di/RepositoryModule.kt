@@ -3,6 +3,7 @@ package se.paradoxia.pxdemo.di
 import dagger.Module
 import dagger.Provides
 import se.paradoxia.pxdemo.api.RestApi
+import se.paradoxia.pxdemo.realm.RealmInstanceMaker
 import se.paradoxia.pxdemo.realm.RealmProvider
 import se.paradoxia.pxdemo.repository.ContentProvider
 import se.paradoxia.pxdemo.service.ContentService
@@ -25,8 +26,14 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRealmService(): RealmService {
-        return RealmProvider()
+    fun provideRealmInstanceMaker(): RealmInstanceMaker {
+        return object : RealmInstanceMaker() {}
+    }
+
+    @Provides
+    @Singleton
+    fun provideRealmService(realmInstanceMaker: RealmInstanceMaker): RealmService {
+        return RealmProvider(realmInstanceMaker)
     }
 
 }
