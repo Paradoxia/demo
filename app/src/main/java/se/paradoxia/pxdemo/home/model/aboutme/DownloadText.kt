@@ -7,10 +7,10 @@ import se.paradoxia.pxdemo.util.AllOpen
 @AllOpen
 class DownloadText : RealmObject() {
 
-	@field:SerializedName("sv")
-	var sv: String? = null
+    @field:SerializedName("sv")
+    var sv: String? = null
 
-	@field:SerializedName("en")
-	var en: String? = null
+    @field:SerializedName("en")
+    var en: String? = null
 
 }

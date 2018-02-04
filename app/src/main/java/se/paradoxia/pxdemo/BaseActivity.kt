@@ -33,9 +33,9 @@ abstract class BaseActivity : AppCompatActivity(), HasFragmentInjector {
         super.onCreate(savedInstanceState)
 
         val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .debuggable(true)
-                .build()
+            .kits(Crashlytics())
+            .debuggable(true)
+            .build()
         Fabric.with(fabric)
 
         if (BuildConfig.DEBUG) {

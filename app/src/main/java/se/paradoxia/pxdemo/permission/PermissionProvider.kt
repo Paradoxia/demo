@@ -20,21 +20,34 @@ import timber.log.Timber
 
 class PermissionProvider : PermissionService {
 
-    override fun havePermission(activity: AppCompatActivity, permission: String, viewModel: PermissionViewModel?): Boolean {
+    override fun havePermission(
+        activity: AppCompatActivity,
+        permission: String,
+        viewModel: PermissionViewModel?
+    ): Boolean {
 
         if (ContextCompat.checkSelfPermission(activity, permission)
-                != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                 val builder = AlertDialog.Builder(activity)
-                val binding: ExplainPermissionBinding = DataBindingUtil.inflate(LayoutInflater.from(activity.baseContext), R.layout.explain_permission, null, false)
+                val binding: ExplainPermissionBinding = DataBindingUtil.inflate(
+                    LayoutInflater.from(activity.baseContext),
+                    R.layout.explain_permission,
+                    null,
+                    false
+                )
                 binding.explainPermission = viewModel
                 builder.setView(binding.root)
                 val dialog = builder.create()
                 binding.explainPermissionEvent = object : ExplainDialogEvent {
                     override fun onClick(view: View) {
                         dialog.cancel()
-                        ActivityCompat.requestPermissions(activity, arrayOf(permission), permissionToRequestCode(permission))
+                        ActivityCompat.requestPermissions(
+                            activity,
+                            arrayOf(permission),
+                            permissionToRequestCode(permission)
+                        )
                     }
                 }
                 dialog.show()

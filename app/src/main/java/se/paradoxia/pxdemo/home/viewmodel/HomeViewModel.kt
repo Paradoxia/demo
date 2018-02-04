@@ -24,8 +24,10 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-24.
  */
 @AllOpen
-class HomeViewModel @Inject constructor(private val contentService: ContentService,
-                                        private val sharedPreferencesService: SharedPreferencesService) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val contentService: ContentService,
+    private val sharedPreferencesService: SharedPreferencesService
+) : ViewModel() {
 
     // Important to lazy init properties because of Mock Spying
     // uses a different "this" instance
@@ -98,12 +100,16 @@ class HomeViewModel @Inject constructor(private val contentService: ContentServi
     fun getCards() = listOf(cardProfileHeader, cardAboutMe)
 
     fun getViewTypeMap() = listOf(
-            ViewTypeMapper(CardAboutMe::class.java,
-                    R.layout.card_about_me,
-                    AboutMeViewHolder::class.java),
-            ViewTypeMapper(CardProfileHeader::class.java,
-                    R.layout.card_profile_header,
-                    ProfileHeaderViewHolder::class.java)
+        ViewTypeMapper(
+            CardAboutMe::class.java,
+            R.layout.card_about_me,
+            AboutMeViewHolder::class.java
+        ),
+        ViewTypeMapper(
+            CardProfileHeader::class.java,
+            R.layout.card_profile_header,
+            ProfileHeaderViewHolder::class.java
+        )
     )
 
     class CardProfileHeader(val homeViewModel: HomeViewModel) {

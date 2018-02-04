@@ -69,8 +69,8 @@ abstract class RealmInstanceMaker {
      */
     open fun getRealmInstance(): Realm {
         val config = RealmConfiguration.Builder()
-                .deleteRealmIfMigrationNeeded()
-                .build()
+            .deleteRealmIfMigrationNeeded()
+            .build()
         return Realm.getInstance(config)
     }
 

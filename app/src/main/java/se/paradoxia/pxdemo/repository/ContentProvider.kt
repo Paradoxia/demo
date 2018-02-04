@@ -21,35 +21,39 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-25.
  */
 
-class ContentProvider @Inject constructor(private val restApi: RestApi,
-                                          private val schedulerService: SchedulerService,
-                                          private val rawResourceService: RawResourceService,
-                                          private val realmService: RealmService) : ContentService {
+class ContentProvider @Inject constructor(
+    private val restApi: RestApi,
+    private val schedulerService: SchedulerService,
+    private val rawResourceService: RawResourceService,
+    private val realmService: RealmService
+) : ContentService {
 
     @Suppress("UNCHECKED_CAST")
     override fun fetchInfoCard(): Observable<Optional<InfoCardResponse>> {
         Timber.d("Fetching InfoCard content for resources, realm and server ")
         return fetchContentLocallyAndExternally(
-                realmService::fetchInfoCard,
-                realmService::saveInfoCard,
-                schedulerService,
-                rawResourceService,
-                R.raw.infocardresponse,
-                InfoCardResponse::class.java as Class<RealmObject>,
-                restApi.getInfoCard() as Observable<RealmObject>)
+            realmService::fetchInfoCard,
+            realmService::saveInfoCard,
+            schedulerService,
+            rawResourceService,
+            R.raw.infocardresponse,
+            InfoCardResponse::class.java as Class<RealmObject>,
+            restApi.getInfoCard() as Observable<RealmObject>
+        )
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
         Timber.d("Fetching AboutMe content for resources, realm and server ")
         return fetchContentLocallyAndExternally(
-                realmService::fetchAboutMe,
-                realmService::saveAboutMe,
-                schedulerService,
-                rawResourceService,
-                R.raw.aboutmeresponse,
-                AboutMeResponse::class.java as Class<RealmObject>,
-                restApi.getAboutMe() as Observable<RealmObject>)
+            realmService::fetchAboutMe,
+            realmService::saveAboutMe,
+            schedulerService,
+            rawResourceService,
+            R.raw.aboutmeresponse,
+            AboutMeResponse::class.java as Class<RealmObject>,
+            restApi.getAboutMe() as Observable<RealmObject>
+        )
     }
 
 }
@@ -57,13 +61,15 @@ class ContentProvider @Inject constructor(private val restApi: RestApi,
 /**
  * Fetching content FROM [local realm] OR [local resources] THEN external server
  */
-inline fun <reified E> fetchContentLocallyAndExternally(crossinline realmFetcher: () -> RealmObject?,
-                                                        crossinline realmSaver: (obj: RealmObject) -> Unit,
-                                                        schedulerService: SchedulerService,
-                                                        rawResourceService: RawResourceService,
-                                                        @IdRes resId: Int,
-                                                        responseClass: Class<RealmObject>,
-                                                        restApiMethod: Observable<RealmObject>): E {
+inline fun <reified E> fetchContentLocallyAndExternally(
+    crossinline realmFetcher: () -> RealmObject?,
+    crossinline realmSaver: (obj: RealmObject) -> Unit,
+    schedulerService: SchedulerService,
+    rawResourceService: RawResourceService,
+    @IdRes resId: Int,
+    responseClass: Class<RealmObject>,
+    restApiMethod: Observable<RealmObject>
+): E {
 
     val fetchFromClient = Observable.create<Any> { emitter ->
         val realmObject: RealmObject? = realmFetcher()
@@ -79,19 +85,19 @@ inline fun <reified E> fetchContentLocallyAndExternally(crossinline realmFetcher
     }
 
     val fetchFromServer = restApiMethod
-            .subscribeOn(schedulerService.io())
-            .flatMap { response: RealmObject ->
-                Timber.d("Fetched \"[${response.javaClass.simpleName}]\" content from server")
-                realmSaver(response)
-                Observable.create<Optional<Any>> { emitter ->
-                    emitter.onNext(response.toOptional())
-                    emitter.onComplete()
-                }
+        .subscribeOn(schedulerService.io())
+        .flatMap { response: RealmObject ->
+            Timber.d("Fetched \"[${response.javaClass.simpleName}]\" content from server")
+            realmSaver(response)
+            Observable.create<Optional<Any>> { emitter ->
+                emitter.onNext(response.toOptional())
+                emitter.onComplete()
             }
-            .onErrorReturn { error ->
-                Timber.e(error)
-                None
-            }
+        }
+        .onErrorReturn { error ->
+            Timber.e(error)
+            None
+        }
 
     return Observable.concat<Any>(fetchFromClient, fetchFromServer) as E
 

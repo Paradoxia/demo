@@ -14,8 +14,10 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath "io.realm:realm-gradle-plugin:$realm_version"
-        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0'
         classpath 'io.fabric.tools:gradle:1.25.1'
+
+        //noinspection GradleDependency
+        classpath 'org.jacoco:org.jacoco.core:0.7.9' // So we can use Jacoco toolVersion = 0.7.9
     }
 }
 

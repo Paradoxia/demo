@@ -9,11 +9,11 @@ import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
  */
 interface RealmService {
 
-    fun fetchAboutMe() : AboutMeResponse?
+    fun fetchAboutMe(): AboutMeResponse?
 
     fun saveAboutMe(aboutMeResponse: RealmObject)
 
-    fun fetchInfoCard() : InfoCardResponse?
+    fun fetchInfoCard(): InfoCardResponse?
 
     fun saveInfoCard(infoCardResponse: RealmObject)
 

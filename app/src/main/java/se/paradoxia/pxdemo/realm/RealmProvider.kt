@@ -15,8 +15,11 @@ const val INFO_CARD_ID = "infocard"
 
 class RealmProvider @Inject constructor(private val realmInstanceMaker: RealmInstanceMaker) : RealmService {
 
-    class AboutMeResponseHelper(realmInstanceMaker: RealmInstanceMaker) : RealmHelper<AboutMeResponse>(realmInstanceMaker)
-    class InfoCardResponseHelper(realmInstanceMaker: RealmInstanceMaker) : RealmHelper<InfoCardResponse>(realmInstanceMaker)
+    class AboutMeResponseHelper(realmInstanceMaker: RealmInstanceMaker) :
+        RealmHelper<AboutMeResponse>(realmInstanceMaker)
+
+    class InfoCardResponseHelper(realmInstanceMaker: RealmInstanceMaker) :
+        RealmHelper<InfoCardResponse>(realmInstanceMaker)
 
     override fun fetchAboutMe(): AboutMeResponse? {
         val responseHelper: RealmHelper<AboutMeResponse> = AboutMeResponseHelper(realmInstanceMaker)

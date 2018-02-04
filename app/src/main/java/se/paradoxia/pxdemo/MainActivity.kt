@@ -49,7 +49,7 @@ class MainActivity : BaseActivity(), PermissionResultReceiver {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getDefaultFragment() : Fragment {
+    fun getDefaultFragment(): Fragment {
         return HomeView.newInstance()
     }
 
@@ -65,7 +65,11 @@ class MainActivity : BaseActivity(), PermissionResultReceiver {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (this.activeFragment is PermissionResultReceiver) {
-            (this.activeFragment as PermissionResultReceiver).onRequestPermissionsResult(requestCode, permissions, grantResults)
+            (this.activeFragment as PermissionResultReceiver).onRequestPermissionsResult(
+                requestCode,
+                permissions,
+                grantResults
+            )
         }
     }
 }

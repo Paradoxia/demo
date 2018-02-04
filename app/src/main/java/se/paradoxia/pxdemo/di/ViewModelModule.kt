@@ -12,7 +12,10 @@ import se.paradoxia.pxdemo.util.AllOpen
 class ViewModelModule {
 
     @Provides
-    fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
+    fun homeViewModel(
+        contentService: ContentService,
+        sharedPreferencesService: SharedPreferencesService
+    ): HomeViewModel {
         return HomeViewModel(contentService, sharedPreferencesService)
     }
 

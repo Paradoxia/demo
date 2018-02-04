@@ -31,9 +31,9 @@ class App : Application(), HasActivityInjector {
     private fun initAppComponent() {
 
         DaggerAppComponent.builder()
-                .application(this)
-                .build()
-                .inject(this)
+            .application(this)
+            .build()
+            .inject(this)
     }
 
     private fun initLeakCanary() {

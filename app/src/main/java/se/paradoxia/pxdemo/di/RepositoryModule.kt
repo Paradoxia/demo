@@ -20,7 +20,11 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideContentService(schedulerService: SchedulerService, rawResourceService: RawResourceService, realmService: RealmService): ContentService {
+    fun provideContentService(
+        schedulerService: SchedulerService,
+        rawResourceService: RawResourceService,
+        realmService: RealmService
+    ): ContentService {
         return ContentProvider(RestApi.create(), schedulerService, rawResourceService, realmService)
     }
 

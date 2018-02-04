@@ -10,7 +10,9 @@ apply plugin: "kotlin-allopen"
 
 apply plugin: "realm-android"
 
-apply plugin: 'com.vanniktech.android.junit.jacoco'
+apply from: "test.gradle"
+
+apply from: "jacoco.gradle"
 
 // apply from: 'README.gradle' // https://github.com/androidstarters/kotlin-android-starter/blob/develop/app/build.gradle
 
@@ -39,9 +41,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            testCoverageEnabled true
         }
     }
     dataBinding {
@@ -75,16 +74,6 @@ android {
         lintConfig file("$projectDir/lint.xml")
     }
 
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-            all {
-                include '**/*Test.class'
-                // configure max heap size of the test JVM
-                maxHeapSize = "4096m"
-            }
-        }
-    }
 
 }
 
@@ -96,32 +85,7 @@ kapt {
     useBuildCache = true
 }
 
-junitJacoco {
-    jacocoVersion = '0.7.2.201409121644'
-    ignoreProjects = []
-    excludes = ['**/R.class',
-                '**/R$*.class',
-                '**/android/databinding/*',
-                '**/*$ViewInjector*.*',
-                '**/*$ViewBinder*.*',
-                '**/BuildConfig.*',
-                '**/*Application*.*',
-                '**/*Component*.*',
-                '**/UiUtils.*',
-                '**/*Binding*.*',
-                '**/*Retrofit*.*',
-                '**/*BR*.*',
-                '**/io/realm/*',
-                '**/*Rx*.*',
-                '**/Manifest*.*',
-                '**/*$Lambda$*.*',
-                '**/*Module.*',
-                '**/*Dagger*.*',
-                '**/*MembersInjector*.*',
-                '**/*_Provide*Factory*.*',
-                '**/*_Factory*.*']
-    includeNoLocationClasses = false
-}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -164,8 +128,6 @@ dependencies {
     // LeakCanary
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    // Disables LeakCanary during junit testing with Robolectric
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     // Support
     implementation 'com.android.support:appcompat-v7:27.0.2'
@@ -177,35 +139,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.0.0"
     kapt "android.arch.lifecycle:compiler:1.0.0"
 
-    // Testing
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.hamcrest:hamcrest-library:1.3'
-
-    testImplementation "android.arch.core:core-testing:1.0.0" // Test helpers for LiveData
-
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-
-    testImplementation 'org.amshove.kluent:kluent-android:1.34'
-    testImplementation 'com.nhaarman:mockito-kotlin:1.5.0'
-
-    testImplementation "org.robolectric:robolectric:3.6.1"
-    testImplementation "org.robolectric:shadows-support-v4:3.3.2"
-
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }
 
-    // Dagger
-    testImplementation 'com.google.dagger:dagger-android:2.14.1'
-    testImplementation('com.google.dagger:dagger-android-support:2.14.1') {
-        exclude group: 'com.android.support'
-    }
-    // if you use the support libraries
-    kaptTest 'com.google.dagger:dagger-android-processor:2.14.1'
-    kaptTest 'com.google.dagger:dagger-compiler:2.14.1'
 
 }

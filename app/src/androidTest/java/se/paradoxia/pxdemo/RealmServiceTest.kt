@@ -33,10 +33,10 @@ class RealmServiceTest {
     @get:Rule
     private val testFolder = TemporaryFolder()
 
-    lateinit var realmService: RealmService
-    lateinit var rawResourceService: RawResourceService
+    private lateinit var realmService: RealmService
+    private lateinit var rawResourceService: RawResourceService
 
-    lateinit var context: Context
+    private lateinit var context: Context
 
     class TempFolderRealmInstanceMaker(private val tempFolder: File) : RealmInstanceMaker() {
         override fun getRealmInstance(): Realm {

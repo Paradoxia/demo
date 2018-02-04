@@ -25,7 +25,8 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-31.
  */
 @AllOpen
-class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Context, val permissionService: PermissionService) : HomeViewLogic {
+class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Context, val permissionService: PermissionService) :
+    HomeViewLogic {
 
     private var saveToStorageUrl: String? = null
 
@@ -71,8 +72,17 @@ class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Contex
     override fun saveToStorage(url: String, language: String) {
         this.saveToStorageUrl = url
         val permissionViewModel = PermissionViewModel()
-        permissionViewModel.explanation.set(getLocalizedResources(context, language).getString(R.string.download_permission_explanation)!!)
-        val permitted = permissionService.havePermission(context as AppCompatActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionViewModel).let {
+        permissionViewModel.explanation.set(
+            getLocalizedResources(
+                context,
+                language
+            ).getString(R.string.download_permission_explanation)!!
+        )
+        val permitted = permissionService.havePermission(
+            context as AppCompatActivity,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            permissionViewModel
+        ).let {
             it ?: false
         }
         if (permitted) {

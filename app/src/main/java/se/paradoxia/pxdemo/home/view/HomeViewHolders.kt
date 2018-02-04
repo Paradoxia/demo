@@ -14,5 +14,6 @@ import se.paradoxia.pxdemo.util.BindingTemplateViewHolder
 class AboutMeViewHolder(binding: CardAboutMeBinding) : BindingTemplateViewHolder(BR.cardAboutMe, binding)
 
 @AllOpen
-class ProfileHeaderViewHolder(binding: CardProfileHeaderBinding) : BindingTemplateViewHolder(BR.cardProfileHeader, binding)
+class ProfileHeaderViewHolder(binding: CardProfileHeaderBinding) :
+    BindingTemplateViewHolder(BR.cardProfileHeader, binding)
 

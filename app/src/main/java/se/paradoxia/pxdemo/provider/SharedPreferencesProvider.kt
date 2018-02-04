@@ -15,14 +15,18 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
 
 
     override fun getString(key: String, groupKey: String?, defaultValue: String?): String? {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         return sharedPref.getString(key, defaultValue)
     }
 
     override fun getBoolean(key: String, groupKey: String?, defaultValue: Boolean?): Boolean? {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         return if (sharedPref.contains(key)) {
             sharedPref.getBoolean(key, false)
         } else {
@@ -31,8 +35,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     override fun getInt(key: String, groupKey: String?, defaultValue: Int?): Int? {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         return if (sharedPref.contains(key)) {
             sharedPref.getInt(key, 0)
         } else {
@@ -41,8 +47,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     override fun putString(key: String, value: String?, groupKey: String?) {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         if (value != null) {
             with(sharedPref.edit()) {
                 putString(key, value)
@@ -54,8 +62,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     override fun putBoolean(key: String, value: Boolean?, groupKey: String?) {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         if (value != null) {
             with(sharedPref.edit()) {
                 putBoolean(key, value)
@@ -67,8 +77,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     override fun putInt(key: String, value: Int?, groupKey: String?) {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         if (value != null) {
             with(sharedPref.edit()) {
                 putInt(key, value)
@@ -92,8 +104,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     private fun removeByKey(key: String, groupKey: String?) {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         with(sharedPref.edit()) {
             remove(key)
             commit()
@@ -101,8 +115,10 @@ class SharedPreferencesProvider @Inject constructor(private val app: Application
     }
 
     override fun removeAll(groupKey: String?) {
-        val sharedPref = app.baseContext.getSharedPreferences(groupKey
-                ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE)
+        val sharedPref = app.baseContext.getSharedPreferences(
+            groupKey
+                    ?: DEFAULT_GROUP_KEY, Context.MODE_PRIVATE
+        )
         with(sharedPref.edit()) {
             clear()
             commit()
