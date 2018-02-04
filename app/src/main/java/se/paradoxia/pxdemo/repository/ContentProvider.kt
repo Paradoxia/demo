@@ -29,18 +29,27 @@ class ContentProvider @Inject constructor(private val restApi: RestApi,
     @Suppress("UNCHECKED_CAST")
     override fun fetchInfoCard(): Observable<Optional<InfoCardResponse>> {
         Timber.d("Fetching InfoCard content for resources, realm and server ")
-        return fetchContentLocallyAndExternally(realmService::fetchInfoCard, realmService::saveInfoCard,
-                schedulerService, rawResourceService, R.raw.infocardresponse,
-                InfoCardResponse::class.java as Class<RealmObject>, restApi.getInfoCard() as Observable<RealmObject>)
-
+        return fetchContentLocallyAndExternally(
+                realmService::fetchInfoCard,
+                realmService::saveInfoCard,
+                schedulerService,
+                rawResourceService,
+                R.raw.infocardresponse,
+                InfoCardResponse::class.java as Class<RealmObject>,
+                restApi.getInfoCard() as Observable<RealmObject>)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
         Timber.d("Fetching AboutMe content for resources, realm and server ")
-        return fetchContentLocallyAndExternally(realmService::fetchAboutMe, realmService::saveAboutMe,
-                schedulerService, rawResourceService, R.raw.aboutmeresponse,
-                AboutMeResponse::class.java as Class<RealmObject>, restApi.getAboutMe() as Observable<RealmObject>)
+        return fetchContentLocallyAndExternally(
+                realmService::fetchAboutMe,
+                realmService::saveAboutMe,
+                schedulerService,
+                rawResourceService,
+                R.raw.aboutmeresponse,
+                AboutMeResponse::class.java as Class<RealmObject>,
+                restApi.getAboutMe() as Observable<RealmObject>)
     }
 
 }
