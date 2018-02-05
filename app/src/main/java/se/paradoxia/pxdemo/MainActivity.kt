@@ -2,50 +2,53 @@ package se.paradoxia.pxdemo
 
 import android.app.Fragment
 import android.app.FragmentManager
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import se.paradoxia.pxdemo.home.view.HomeView
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
 import se.paradoxia.pxdemo.util.AllOpen
 
+
 @AllOpen
-class MainActivity : BaseActivity(), PermissionResultReceiver {
+class MainActivity : BaseActivity(), PermissionResultReceiver, AppActionReceiver {
 
     var activeFragment: Fragment? = null
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.home -> {
-                message.setText(R.string.title_home)
-                return@OnNavigationItemSelectedListener true
+    var binding: ViewDataBinding? = null
+
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.dashboard -> {
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.notifications -> {
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.dashboard -> {
-                message.setText(R.string.title_dashboard)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.notifications -> {
-                message.setText(R.string.title_notifications)
-                return@OnNavigationItemSelectedListener true
-            }
+            false
         }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
     }
 
     override fun onResume() {
         super.onResume()
         addFragmentToActivity(fragmentManager, getDefaultFragment(), R.id.flPage)
+    }
+
+    override fun registerAppActionReceiver(appAction: AppAction) {
+        binding!!.setVariable(BR.appAction, appAction)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -62,7 +65,11 @@ class MainActivity : BaseActivity(), PermissionResultReceiver {
     }
 
     // (This Activity) onRequestPermissionsResult -> (Active Fragment) onRequestPermissionsResult -> (SomeReceiverLogic) onRequestPermissionsResult
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (this.activeFragment is PermissionResultReceiver) {
             (this.activeFragment as PermissionResultReceiver).onRequestPermissionsResult(

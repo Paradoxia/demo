@@ -207,7 +207,7 @@ class HomeViewModelTest : Junit4TestBase() {
     fun shouldSetPreferenceAndLoadContentWhenSwedishLanguageIsSelected() {
 
         val spiedHomeViewModel = Mockito.spy(homeViewModel)
-        spiedHomeViewModel!!.selectLangSV(view)
+        spiedHomeViewModel!!.selectLangSV()
 
         Verify on sharedPreferencesService that sharedPreferencesService.putString(
             "language",
@@ -221,7 +221,7 @@ class HomeViewModelTest : Junit4TestBase() {
     fun shouldSetPreferenceAndLoadContentWhenEnglishLanguageIsSelected() {
 
         val spiedHomeViewModel = Mockito.spy(homeViewModel)
-        spiedHomeViewModel!!.selectLangEN(view)
+        spiedHomeViewModel!!.selectLangEN()
 
         Verify on sharedPreferencesService that sharedPreferencesService.putString(
             "language",

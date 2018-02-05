@@ -7,6 +7,7 @@ import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
+import se.paradoxia.pxdemo.AppAction
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
 import se.paradoxia.pxdemo.home.view.AboutMeViewHolder
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val contentService: ContentService,
     private val sharedPreferencesService: SharedPreferencesService
-) : ViewModel() {
+) : ViewModel(), AppAction {
 
     // Important to lazy init properties because of Mock Spying
     // uses a different "this" instance
@@ -55,13 +56,13 @@ class HomeViewModel @Inject constructor(
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun selectLangEN(view: View?) {
+    override fun selectLangEN() {
         sharedPreferencesService.putString("language", "en")
         loadContent()
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun selectLangSV(view: View?) {
+    override fun selectLangSV() {
         sharedPreferencesService.putString("language", "sv")
         loadContent()
     }
@@ -74,12 +75,19 @@ class HomeViewModel @Inject constructor(
 
     fun saveToStorage(view: View?) {
         if (view?.tag != null) {
-            homeViewAction?.saveToStorage(view.tag as String, if (language == "sv") "se" else language!!)
+            homeViewAction?.saveToStorage(
+                view.tag as String,
+                if (language == "sv") "se" else language!!
+            )
         }
     }
 
     internal fun loadContent() {
-        language = sharedPreferencesService.getString("language", groupKey = null, defaultValue = "en")!!
+        language = sharedPreferencesService.getString(
+            "language",
+            groupKey = null,
+            defaultValue = "en"
+        )!!
 
         disposables.add(contentService.fetchAboutMe().subscribe({ response: Optional<AboutMeResponse> ->
             val aboutMeResponse: AboutMeResponse? = response.toNullable()

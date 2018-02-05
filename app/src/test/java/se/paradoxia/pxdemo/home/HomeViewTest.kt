@@ -209,11 +209,9 @@ class HomeViewTest : RobolectricTestBase() {
             viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderName)
                 .text.toString()
 
-        viewHolderProfileHeader.itemView.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
+        mainActivity!!.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
 
-        Verify on extractHomeViewModel(mainActivity) that extractHomeViewModel(mainActivity).selectLangSV(
-            any(View::class)
-        ) was called
+        Verify on extractHomeViewModel(mainActivity) that extractHomeViewModel(mainActivity).selectLangSV() was called
 
         val profileHeaderRole =
             viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderRole)
@@ -233,8 +231,8 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldBeSwedishInAboutMeTextViewsByDefault() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
-        viewHolderProfileHeader.itemView.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
+
+        mainActivity!!.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
 
         // Scroll to "second" card
         recyclerView.scrollToPosition(1)

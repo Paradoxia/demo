@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.fragment_home.*
+import se.paradoxia.pxdemo.AppActionReceiver
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
@@ -51,6 +52,7 @@ class HomeView : Fragment(), PermissionResultReceiver {
         val applicationId = BuildConfig.APPLICATION_ID
         val profileImageResourceUri = Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
         homeViewModel.init(this.homeViewLogic as HomeViewAction, profileImageResourceUri.toString())
+        (activity as AppActionReceiver).registerAppActionReceiver(homeViewModel)
         val layoutManager = LinearLayoutManager(activity)
         recViewHome.layoutManager = layoutManager
         recViewHome.adapter = FlexibleRecyclerViewAdapter(homeViewModel.getViewTypeMap(), homeViewModel.getCards())
