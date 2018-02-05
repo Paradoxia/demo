@@ -28,9 +28,14 @@ import javax.inject.Inject
 class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Context, val permissionService: PermissionService) :
     HomeViewLogic {
 
-    private var saveToStorageUrl: String? = null
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var saveToStorageUrl: String? = null
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             permissionService.permissionToRequestCode(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
                 if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
@@ -47,8 +52,6 @@ class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Contex
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     override fun download(url: String) {
-
-        println("\t\t\tHomeViewLogic $permissionService")
 
         val uri = Uri.parse(url)
         val fileName = uri.lastPathSegment

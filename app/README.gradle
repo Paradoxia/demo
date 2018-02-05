@@ -1,5 +1,9 @@
 https://github.com/androidstarters/kotlin-android-starter/blob/develop/app/dependencies.gradle
 
+
+//System.out.println(mockingDetails(mainActivity.spiedHomeViewLogic).printInvocations())
+
+
 ext {
     versions = [
             support         : "27.0.2",

@@ -37,7 +37,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:paddingLeft="-40dp"
+                    android:paddingStart="-40dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -145,7 +145,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvProfileHeaderRole">
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/imageView3"
+                        android:id="@+id/ivLinkedIn"
                         style="@style/PxTheme.SvgIcon"
                         android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
                         android:tag="@{cardProfileHeader.linkedin}"
@@ -157,50 +157,50 @@
                         tools:layout_width="wrap_content" />
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/ivFacebook"
                         style="@style/PxTheme.SvgIcon"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.facebook}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_facebook"
-                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
-                        android:tag="@{cardProfileHeader.facebook}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/ivTwitter"
                         style="@style/PxTheme.SvgIcon"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.twitter}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_twitter"
-                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
-                        android:tag="@{cardProfileHeader.twitter}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/imageView6"
+                        android:id="@+id/ivGooglePlus"
                         style="@style/PxTheme.SvgIcon"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.google}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_google_plus"
-                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
-                        android:tag="@{cardProfileHeader.google}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
                     <android.support.v7.widget.AppCompatImageView
-                        android:id="@+id/imageView7"
+                        android:id="@+id/ivInstagram"
                         style="@style/PxTheme.SvgIcon"
+                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
+                        android:tag="@{cardProfileHeader.instagram}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_instagram"
-                        android:onClick="@{(v)->cardProfileHeader.homeViewModel.openExternalSite(v)}"
-                        android:tag="@{cardProfileHeader.instagram}"
                         tools:layout_height="wrap_content"
                         tools:layout_width="wrap_content" />
 
