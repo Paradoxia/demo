@@ -10,6 +10,7 @@ import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.api.RestApi
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.RawResourceService
 import se.paradoxia.pxdemo.service.RealmService
@@ -55,6 +56,23 @@ class ContentProvider @Inject constructor(
             restApi.getAboutMe() as Observable<RealmObject>
         )
     }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun fetchPersonalInfo(): Observable<Optional<PersonalInfoResponse>> {
+
+        Timber.d("Fetching PersonalInfo content for resources, realm and server ")
+        return fetchContentLocallyAndExternally(
+            realmService::fetchPersonalInfo,
+            realmService::savePersonalInfo,
+            schedulerService,
+            rawResourceService,
+            R.raw.personalinforesponse,
+            PersonalInfoResponse::class.java as Class<RealmObject>,
+            restApi.getPersonalInfo() as Observable<RealmObject>
+        )
+
+    }
+
 
 }
 

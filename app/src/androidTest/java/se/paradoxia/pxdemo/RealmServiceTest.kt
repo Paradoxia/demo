@@ -17,6 +17,7 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
 import se.paradoxia.pxdemo.provider.RawResourceProvider
 import se.paradoxia.pxdemo.realm.RealmInstanceMaker
 import se.paradoxia.pxdemo.realm.RealmProvider
@@ -91,6 +92,23 @@ class RealmServiceTest {
                 realmService::saveInfoCard,
                 rawResourceService,
                 R.raw.infocardresponse)
+        assertNotNull(response)
+    }
+
+    @Test
+    fun shouldFetchEmptyPersonalInfoResponse() {
+        val response = realmService.fetchPersonalInfo()
+        assertNull(response)
+    }
+
+    @Test
+    fun shouldSavePersonalInfoResponseAndFetchIt() {
+
+        val response: PersonalInfoResponse = saveToRealmAndFetchAgain(
+            realmService::fetchPersonalInfo,
+            realmService::savePersonalInfo,
+            rawResourceService,
+            R.raw.personalinforesponse)
         assertNotNull(response)
     }
 

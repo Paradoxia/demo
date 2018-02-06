@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
 
 /**
  * Created by mikael on 2018-01-20.
@@ -16,6 +17,8 @@ interface RestApi {
     @retrofit2.http.GET("infocard")
     fun getInfoCard(): Observable<InfoCardResponse>
 
+    @retrofit2.http.GET("personalinfo")
+    fun getPersonalInfo(): Observable<PersonalInfoResponse>
 
     companion object Factory {
         fun create(): RestApi {

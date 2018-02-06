@@ -40,6 +40,7 @@ import se.paradoxia.pxdemo.home.view.HomeViewLogic
 import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.permission.PermissionViewModel
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.PermissionService
 import se.paradoxia.pxdemo.util.AllOpen
@@ -68,6 +69,11 @@ class HomeViewTest : RobolectricTestBase() {
     private var shadowMainActivity: ShadowActivity? = null
 
     private val localContentService = object : ContentService {
+
+        override fun fetchPersonalInfo(): Observable<Optional<PersonalInfoResponse>> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
             return Observable.just(aboutMeResponse.toOptional())
         }
