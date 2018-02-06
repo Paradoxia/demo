@@ -1,11 +1,20 @@
 package se.paradoxia.pxdemo.util
 
+import android.content.Context
 import android.databinding.BindingAdapter
+import android.databinding.DataBindingUtil
+import android.databinding.ObservableList
+import android.databinding.ViewDataBinding
 import android.graphics.*
 import android.support.annotation.IdRes
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
+import se.paradoxia.pxdemo.BR
+import se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel.CardPersonalInfo.PersonalInfoValue
+
 
 @BindingAdapter("circleImageUrl")
 fun setCircleImageUrl(imageView: ImageView, url: String?) {
@@ -54,5 +63,23 @@ class CircleTransform : Transformation {
 
     override fun key(): String {
         return "circle"
+    }
+}
+
+@BindingAdapter("entries", "layout")
+fun setPersonalInfoValueList(
+    viewGroup: ViewGroup,
+    entries: ObservableList<PersonalInfoValue>?,
+    @IdRes layoutId: Int
+) {
+    viewGroup.removeAllViews()
+    if (entries != null) {
+        val inflater =
+            viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        for (i in entries.indices) {
+            val binding =
+                DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, viewGroup, true)
+            binding.setVariable(BR.personalInfoValue, entries[i])
+        }
     }
 }

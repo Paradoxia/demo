@@ -1,15 +1,19 @@
 package se.paradoxia.pxdemo.personalinfo.viewmodel
 
 import android.arch.lifecycle.ViewModel
+import android.databinding.ObservableArrayList
 import android.databinding.ObservableField
 import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
 import se.paradoxia.pxdemo.AppAction
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfo
+import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoFields
 import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
 import timber.log.Timber
+import java.lang.reflect.Modifier
 import javax.inject.Inject
 
 /**
@@ -50,7 +54,7 @@ class PersonalInfoViewModel @Inject constructor(
         disposables.add(contentService.fetchPersonalInfo().subscribe({ response: Optional<PersonalInfoResponse> ->
             val personalInfoResponse: PersonalInfoResponse? = response.toNullable()
             if (personalInfoResponse != null) {
-                //cardAboutMe.update(language!!, aboutMeResponse)
+                cardPersonalInfo.update(language!!, personalInfoResponse)
             }
         }, { error -> Timber.e(error) }))
 
@@ -58,41 +62,51 @@ class PersonalInfoViewModel @Inject constructor(
 
     class CardPersonalInfo {
 
-        val persInfoFieldPiTitle = ObservableField<String>()
-        val personalFields = mutableListOf<PersonalInfoValue>()
+        val title = ObservableField<String>()
+        val fieldsAndValues = ObservableArrayList<PersonalInfoValue>()
 
-        class PersonalInfoValue {
-            val persInfoFieldName = ObservableField<String>()
-            val persInfoFieldValue = ObservableField<String>()
-        }
+        class PersonalInfoValue(
+            val fieldName: String?,
+            val fieldValue: String?
+        )
 
         fun update(language: String, personalInfoResponse: PersonalInfoResponse) {
 
-            val personalInfo = if (language == "en") personalInfoResponse.personalInfoEn
+            val values = if (language == "en") personalInfoResponse.personalInfoEn
             else personalInfoResponse.personalInfoSv
+            val fieldValues = extractFieldValues(values as Any, PersonalInfo::class.java)
 
-            persInfoFieldPiTitle.set(personalInfo?.personalInfoFields?.piTitle)
+            val fields =
+                if (language == "en") personalInfoResponse.personalInfoEn?.personalInfoFields
+                else personalInfoResponse.personalInfoSv?.personalInfoFields
+            val fieldNames = extractFieldValues(
+                fields as Any,
+                PersonalInfoFields::class.java
+            )
 
-            
+            fieldNames.forEach {
+                fieldsAndValues.add(
+                    PersonalInfoValue(
+                        it.value as String?, fieldValues[it.key] as String?
+                    )
+                )
 
+            }
 
+            title.set(values.personalInfoFields?.piTitle)
 
         }
 
-
-/*        val persInfoFullName = ObservableField<String>()
-        val persInfoDOB = ObservableField<String>()
-        val persInfoResidence = ObservableField<String>()
-        val persInfoEmail = ObservableField<String>()
-        val persInfoPhone = ObservableField<String>()
-        val persInfoStatus = ObservableField<String>()
-
-        val persInfoFieldFullName = ObservableField<String>()
-        val persInfoFieldDOB = ObservableField<String>()
-        val persInfoFieldResidence = ObservableField<String>()
-        val persInfoFieldEmail = ObservableField<String>()
-        val persInfoFieldPhone = ObservableField<String>()
-        val persInfoFieldStatus = ObservableField<String>()*/
+        private fun extractFieldValues(data: Any, clazz: Class<*>): Map<String, Any?> {
+            val map = mutableMapOf<String, Any?>()
+            val fields = clazz.declaredFields.map { it.isAccessible = true; it }
+            fields.forEach { field ->
+                if (!Modifier.isStatic(field.modifiers)) {
+                    map[field.name] = field.get(data)
+                }
+            }
+            return map
+        }
 
     }
 

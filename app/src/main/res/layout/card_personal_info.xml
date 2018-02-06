@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="personalInfoValues"
+            type="android.databinding.ObservableList&lt;se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel.CardPersonalInfo.PersonalInfoValue&gt;" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvPersonalInformation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Personal Information" />
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/card_personal_info_row" />
+            <TextView
+                android:id="@+id/tvPersonalInformation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Personal Information" />
 
-        <include layout="@layout/card_personal_info_row" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:entries="@{personalInfoValues}"
+                app:layout="@{@layout/card_personal_info_row}">
 
-        <include layout="@layout/card_personal_info_row" />
+                <!--<include layout="@layout/card_personal_info_row" />-->
+
+            </LinearLayout>
 
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

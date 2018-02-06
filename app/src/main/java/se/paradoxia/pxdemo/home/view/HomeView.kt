@@ -14,6 +14,7 @@ import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
+import se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel
 import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import javax.inject.Inject
@@ -27,6 +28,9 @@ class HomeView : Fragment(), PermissionResultReceiver {
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
+
+    @Inject
+    lateinit var personalInfoViewModel: PersonalInfoViewModel
 
     @Inject
     lateinit var homeViewLogic: HomeViewLogic
@@ -51,7 +55,14 @@ class HomeView : Fragment(), PermissionResultReceiver {
         super.onViewCreated(view, savedInstanceState)
         val applicationId = BuildConfig.APPLICATION_ID
         val profileImageResourceUri = Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
+
+
         homeViewModel.init(this.homeViewLogic as HomeViewAction, profileImageResourceUri.toString())
+
+        personalInfoViewModel.init()
+
+
+
         (activity as AppActionReceiver).registerAppActionReceiver(homeViewModel)
         val layoutManager = LinearLayoutManager(activity)
         recViewHome.layoutManager = layoutManager

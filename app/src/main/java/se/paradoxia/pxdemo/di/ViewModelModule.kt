@@ -13,7 +13,7 @@ import se.paradoxia.pxdemo.util.AllOpen
 class ViewModelModule {
 
     @Provides
-    fun homeViewModel(
+    fun provideHomeViewModel(
         contentService: ContentService,
         sharedPreferencesService: SharedPreferencesService
     ): HomeViewModel {
@@ -21,7 +21,7 @@ class ViewModelModule {
     }
 
     @Provides
-    fun personalInfoModel(
+    fun providePersonalInfoModel(
         contentService: ContentService,
         sharedPreferencesService: SharedPreferencesService
     ): PersonalInfoViewModel {
