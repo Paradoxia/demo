@@ -6,12 +6,15 @@ import android.databinding.ObservableField
 import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
 import se.paradoxia.pxdemo.AppAction
+import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.personalinfo.model.PersonalInfo
 import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoFields
 import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
+import se.paradoxia.pxdemo.personalinfo.view.PersonalInfoHolder
 import se.paradoxia.pxdemo.service.ContentService
 import se.paradoxia.pxdemo.service.SharedPreferencesService
 import se.paradoxia.pxdemo.util.AllOpen
+import se.paradoxia.pxdemo.util.ViewTypeMapper
 import timber.log.Timber
 import java.lang.reflect.Modifier
 import javax.inject.Inject
@@ -109,6 +112,16 @@ class PersonalInfoViewModel @Inject constructor(
         }
 
     }
+
+    fun getCards() = listOf(cardPersonalInfo)
+
+    fun getViewTypeMap() = listOf(
+        ViewTypeMapper(
+            PersonalInfoViewModel.CardPersonalInfo::class.java,
+            R.layout.card_personal_info,
+            PersonalInfoHolder::class.java
+        )
+    )
 
     class CardLanguage {
 

@@ -14,7 +14,6 @@ import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
-import se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel
 import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.FlexibleRecyclerViewAdapter
 import javax.inject.Inject
@@ -28,9 +27,6 @@ class HomeView : Fragment(), PermissionResultReceiver {
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
-
-    @Inject
-    lateinit var personalInfoViewModel: PersonalInfoViewModel
 
     @Inject
     lateinit var homeViewLogic: HomeViewLogic
@@ -47,30 +43,37 @@ class HomeView : Fragment(), PermissionResultReceiver {
         AndroidInjection.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return activity.layoutInflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val applicationId = BuildConfig.APPLICATION_ID
-        val profileImageResourceUri = Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
-
+        val profileImageResourceUri =
+            Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)
 
         homeViewModel.init(this.homeViewLogic as HomeViewAction, profileImageResourceUri.toString())
-
-        personalInfoViewModel.init()
-
-
 
         (activity as AppActionReceiver).registerAppActionReceiver(homeViewModel)
         val layoutManager = LinearLayoutManager(activity)
         recViewHome.layoutManager = layoutManager
-        recViewHome.adapter = FlexibleRecyclerViewAdapter(homeViewModel.getViewTypeMap(), homeViewModel.getCards())
+        recViewHome.adapter = FlexibleRecyclerViewAdapter(
+            homeViewModel.getViewTypeMap(),
+            homeViewModel.getCards()
+        )
     }
 
     // (Activity) -> (This Fragment) onRequestPermissionsResult -> (HomeViewLogic) onRequestPermissionsResult
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         homeViewLogic.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }

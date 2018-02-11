@@ -6,8 +6,9 @@
     <data>
 
         <variable
-            name="personalInfoValues"
-            type="android.databinding.ObservableList&lt;se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel.CardPersonalInfo.PersonalInfoValue&gt;" />
+            name="personalInfo"
+            type="se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel.CardPersonalInfo" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -29,13 +30,14 @@
                 android:id="@+id/tvPersonalInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{personalInfo.title}"
                 tools:text="Personal Information" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:entries="@{personalInfoValues}"
+                app:entries="@{personalInfo.fieldsAndValues}"
                 app:layout="@{@layout/card_personal_info_row}">
 
                 <!--<include layout="@layout/card_personal_info_row" />-->

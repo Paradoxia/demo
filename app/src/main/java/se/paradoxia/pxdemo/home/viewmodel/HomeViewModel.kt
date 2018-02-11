@@ -5,9 +5,9 @@ import android.databinding.ObservableField
 import android.view.View
 import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
+import se.paradoxia.pxdemo.AppAction
 import se.paradoxia.pxdemo.BuildConfig
 import se.paradoxia.pxdemo.R
-import se.paradoxia.pxdemo.AppAction
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
 import se.paradoxia.pxdemo.home.view.AboutMeViewHolder

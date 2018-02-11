@@ -62,6 +62,8 @@ class HomeViewTest : RobolectricTestBase() {
 
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
+    val personalInfoResponse: PersonalInfoResponse =
+        rawResourceToInstance("personalinforesponse.json")
 
     private var homeTestAppComponent: HomeTestAppComponent? = null
     private var activityController: ActivityController<MainActivity>? = null
@@ -71,7 +73,7 @@ class HomeViewTest : RobolectricTestBase() {
     private val localContentService = object : ContentService {
 
         override fun fetchPersonalInfo(): Observable<Optional<PersonalInfoResponse>> {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return Observable.just(personalInfoResponse.toOptional())
         }
 
         override fun fetchAboutMe(): Observable<Optional<AboutMeResponse>> {
