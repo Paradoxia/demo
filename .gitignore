@@ -5,3 +5,4 @@ local.properties
 build/
 .externalNativeBuild
 .idea/
+captures/

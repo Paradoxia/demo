@@ -11,40 +11,49 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/PxTheme.Card.Gray"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvPersonalInformation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{personalInfo.title}"
-                tools:text="Personal Information" />
+            tools:background="@color/pxBlack">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical"
-                app:entries="@{personalInfo.fieldsAndValues}"
-                app:layout="@{@layout/card_personal_info_row}">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <!--<include layout="@layout/card_personal_info_row" />-->
+                <TextView
+                    android:id="@+id/tvPersonalInformation"
+                    style="@style/PxTheme.SmallHeaderText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{personalInfo.title}"
+                    tools:text="Personal Information" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:entries="@{personalInfo.fieldsAndValues}"
+                    app:layout="@{@layout/card_personal_info_row}" />
+
 
             </LinearLayout>
-
-
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
 </layout>

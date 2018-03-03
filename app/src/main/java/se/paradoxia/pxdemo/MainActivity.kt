@@ -53,6 +53,7 @@ class MainActivity : BaseActivity(), PermissionResultReceiver, AppActionReceiver
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun getDefaultFragment(): Fragment {
+        //return HomeView.newInstance()
         return PersonalInfoView.newInstance()
     }
 

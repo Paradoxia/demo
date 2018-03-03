@@ -4,13 +4,29 @@
         <item name="colorPrimary">@color/pxBlack</item>
         <item name="colorPrimaryDark">@color/pxTextLight</item>
         <item name="colorAccent">@color/pxColoredElements</item>
-        <item name="cardBackgroundColor">@color/pxColoredElements</item>
         <item name="fontFamily">@font/quicksand_medium</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="PxTheme.MediumHeaderText" parent="PxTheme">
+    <style name="PxTheme.Card">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">false</item>
+    </style>
+
+    <style name="PxTheme.Card.Red">
+        <item name="cardBackgroundColor">@color/pxColoredElements</item>
+    </style>
+
+    <style name="PxTheme.Card.Gray">
+        <item name="cardBackgroundColor">@color/pxWhiteElements</item>
+    </style>
+
+    <style name="PxTheme.MediumHeaderText">
         <item name="android:textSize">@dimen/px_medium_font_size</item>
         <item name="android:textColor">@color/pxTextMain</item>
         <item name="android:textStyle">bold</item>
@@ -18,14 +34,14 @@
         <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
     </style>
 
-    <style name="PxTheme.SmallHeaderText" parent="PxTheme">
+    <style name="PxTheme.SmallHeaderText">
         <item name="android:textSize">@dimen/px_small_font_size</item>
         <item name="android:textColor">@color/pxTextMain</item>
         <item name="android:capitalize">words</item>
         <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
     </style>
 
-    <style name="PxTheme.SvgIcon" parent="PxTheme">
+    <style name="PxTheme.SvgIcon">
         <item name="android:layout_width">@dimen/px_svg_icon_width</item>
         <item name="android:layout_height">@dimen/px_svg_icon_height</item>
         <item name="android:tint">@color/px_external_button_effect</item>
@@ -34,7 +50,24 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
+    <style name="PxTheme.FieldTitle">
+        <item name="android:textSize">@dimen/px_field_name_font_size</item>
+        <item name="android:textColor">@color/pxTextMain</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
+    </style>
 
+    <style name="PxTheme.FieldValue">
+        <item name="android:textSize">@dimen/px_field_value_font_size</item>
+        <item name="fontFamily">@font/quicksand_light</item>
+        <item name="android:textColor">@color/pxTextMain</item>
+        <item name="android:letterSpacing">@dimen/px_normal_letter_spacing</item>
+    </style>
+
+    <style name="PxTheme.FieldRow">
+        <item name="android:layout_height">30dp</item>
+    </style>
 
 
 </resources>

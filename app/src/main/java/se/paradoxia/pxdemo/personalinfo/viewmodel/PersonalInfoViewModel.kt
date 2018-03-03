@@ -87,13 +87,16 @@ class PersonalInfoViewModel @Inject constructor(
                 PersonalInfoFields::class.java
             )
 
-            fieldNames.forEach {
+            fieldsAndValues.clear()
+
+            val displayedFields = PersonalInfo.displayedFields()
+            displayedFields.forEach { displayedField ->
+                val fieldName = fieldNames[displayedField] as String?
                 fieldsAndValues.add(
                     PersonalInfoValue(
-                        it.value as String?, fieldValues[it.key] as String?
+                         fieldName, fieldValues[displayedField] as String?
                     )
                 )
-
             }
 
             title.set(values.personalInfoFields?.piTitle)

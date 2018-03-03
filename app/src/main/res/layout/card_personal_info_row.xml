@@ -11,8 +11,8 @@
     </data>
 
     <LinearLayout
+        style="@style/PxTheme.FieldRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/PxTheme.FieldTitle"
             android:text="@{personalInfoValue.fieldName}"
             tools:text="Full Name" />
 
@@ -28,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/PxTheme.FieldValue"
             android:text="@{personalInfoValue.fieldValue}"
             tools:text="Mikael Leif Olsson" />
     </LinearLayout>

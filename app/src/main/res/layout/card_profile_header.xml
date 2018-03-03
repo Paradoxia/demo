@@ -12,13 +12,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
-        style="@style/PxTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="false">
+        style="@style/PxTheme.Card.Red">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +33,6 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@{cardProfileHeader.name}"
-                    android:inputType="textNoSuggestions"
                     android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

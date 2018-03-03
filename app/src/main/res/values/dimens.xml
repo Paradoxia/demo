@@ -6,6 +6,9 @@
     <dimen name="px_large_font_size">20sp</dimen>
     <dimen name="px_medium_font_size">28sp</dimen>
     <dimen name="px_small_font_size">20sp</dimen>
+    <dimen name="px_field_name_font_size">13sp</dimen>
+    <dimen name="px_field_value_font_size">15sp</dimen>
+
     <dimen name="px_normal_letter_spacing">0.1</dimen>
 
     <dimen name="px_svg_icon_width">22dp</dimen>

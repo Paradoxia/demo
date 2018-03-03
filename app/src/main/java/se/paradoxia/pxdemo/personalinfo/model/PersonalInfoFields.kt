@@ -7,15 +7,6 @@ import se.paradoxia.pxdemo.util.AllOpen
 @AllOpen
 class PersonalInfoFields : RealmObject() {
 
-    @field:SerializedName("phone")
-    var phone: String? = null
-
-    @field:SerializedName("piTitle")
-    var piTitle: String? = null
-
-    @field:SerializedName("langTitle")
-    var langTitle: String? = null
-
     @field:SerializedName("fullName")
     var fullName: String? = null
 
@@ -28,7 +19,16 @@ class PersonalInfoFields : RealmObject() {
     @field:SerializedName("email")
     var email: String? = null
 
+    @field:SerializedName("phone")
+    var phone: String? = null
+
     @field:SerializedName("status")
     var status: String? = null
+
+    @field:SerializedName("piTitle")
+    var piTitle: String? = null
+
+    @field:SerializedName("langTitle")
+    var langTitle: String? = null
 
 }
