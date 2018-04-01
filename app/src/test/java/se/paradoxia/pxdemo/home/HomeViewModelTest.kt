@@ -33,9 +33,9 @@ import kotlin.test.assertNull
  */
 class HomeViewModelTest : Junit4TestBase() {
 
-    var contentService: ContentService? = null
-    var testScheduler: TestScheduler? = null
-    var homeViewModel: HomeViewModel? = null
+    private var contentService: ContentService? = null
+    private var testScheduler: TestScheduler? = null
+    private var homeViewModel: HomeViewModel? = null
 
     private val sharedPreferencesService: SharedPreferencesService =
         Mockito.mock(SharedPreferencesService::class.java)
@@ -111,13 +111,13 @@ class HomeViewModelTest : Junit4TestBase() {
     @Test
     fun shouldFirstUseUriToInternalResourceImageAndAfterServerCallExternalUrl() {
 
-        assertEquals("not-important", homeViewModel!!.cardProfileHeader.profileImage.get())
+        assertEquals("not-important", homeViewModel!!.cardProfileHeader.profileImage.value)
 
         testScheduler?.triggerActions()
 
         assertEquals(
             BuildConfig.IMAGE_BASE_URL + infoCardResponse.profileImage?.x2,
-            homeViewModel!!.cardProfileHeader.profileImage.get()
+            homeViewModel!!.cardProfileHeader.profileImage.value
         )
 
     }
@@ -125,20 +125,20 @@ class HomeViewModelTest : Junit4TestBase() {
     @Test
     fun shouldSetCardAboutMeObservableFieldsAfterServerResponse() {
 
-        assertNull(homeViewModel!!.cardAboutMe.aboutMeText.get())
-        assertNull(homeViewModel!!.cardAboutMe.aboutMeTitle.get())
-        assertNull(homeViewModel!!.cardAboutMe.aboutMeHeadline.get())
+        assertNull(homeViewModel!!.cardAboutMe.aboutMeText.value)
+        assertNull(homeViewModel!!.cardAboutMe.aboutMeTitle.value)
+        assertNull(homeViewModel!!.cardAboutMe.aboutMeHeadline.value)
 
         testScheduler?.triggerActions()
 
-        assertEquals(aboutMeResponse.aboutMeSv?.text, homeViewModel!!.cardAboutMe.aboutMeText.get())
+        assertEquals(aboutMeResponse.aboutMeSv?.text, homeViewModel!!.cardAboutMe.aboutMeText.value)
         assertEquals(
             aboutMeResponse.aboutMeSv?.title,
-            homeViewModel!!.cardAboutMe.aboutMeTitle.get()
+            homeViewModel!!.cardAboutMe.aboutMeTitle.value
         )
         assertEquals(
             aboutMeResponse.aboutMeSv?.headline,
-            homeViewModel!!.cardAboutMe.aboutMeHeadline.get()
+            homeViewModel!!.cardAboutMe.aboutMeHeadline.value
         )
 
     }
@@ -146,38 +146,38 @@ class HomeViewModelTest : Junit4TestBase() {
     @Test
     fun shouldSetCardProfileHeaderObservableFieldsAfterServerResponse() {
 
-        assertNull(homeViewModel!!.cardProfileHeader.downloadFile.get())
-        assertNull(homeViewModel!!.cardProfileHeader.downloadText.get())
-        assertNull(homeViewModel!!.cardProfileHeader.facebook.get())
-        assertNull(homeViewModel!!.cardProfileHeader.instagram.get())
-        assertNull(homeViewModel!!.cardProfileHeader.twitter.get())
-        assertNull(homeViewModel!!.cardProfileHeader.linkedin.get())
-        assertNull(homeViewModel!!.cardProfileHeader.name.get())
-        assertNull(homeViewModel!!.cardProfileHeader.role.get())
+        assertNull(homeViewModel!!.cardProfileHeader.downloadFile.value)
+        assertNull(homeViewModel!!.cardProfileHeader.downloadText.value)
+        assertNull(homeViewModel!!.cardProfileHeader.facebook.value)
+        assertNull(homeViewModel!!.cardProfileHeader.instagram.value)
+        assertNull(homeViewModel!!.cardProfileHeader.twitter.value)
+        assertNull(homeViewModel!!.cardProfileHeader.linkedIn.value)
+        assertNull(homeViewModel!!.cardProfileHeader.name.value)
+        assertNull(homeViewModel!!.cardProfileHeader.role.value)
 
         testScheduler?.triggerActions()
 
         assertEquals(
             BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.sv,
-            homeViewModel!!.cardProfileHeader.downloadFile.get()
+            homeViewModel!!.cardProfileHeader.downloadFile.value
         )
 
         assertEquals(
             infoCardResponse.downloadText?.sv,
-            homeViewModel!!.cardProfileHeader.downloadText.get()
+            homeViewModel!!.cardProfileHeader.downloadText.value
         )
 
         assertEquals(
             BuildConfig.FACEBOOK_EXTERNAL_URL + infoCardResponse.facebook,
-            homeViewModel!!.cardProfileHeader.facebook.get()
+            homeViewModel!!.cardProfileHeader.facebook.value
         )
 
-        assertEquals(infoCardResponse.instagram, homeViewModel!!.cardProfileHeader.instagram.get())
-        assertEquals(infoCardResponse.google, homeViewModel!!.cardProfileHeader.google.get())
-        assertEquals(infoCardResponse.twitter, homeViewModel!!.cardProfileHeader.twitter.get())
-        assertEquals(infoCardResponse.linkedin, homeViewModel!!.cardProfileHeader.linkedin.get())
-        assertEquals(infoCardResponse.name, homeViewModel!!.cardProfileHeader.name.get())
-        assertEquals(infoCardResponse.role?.sv, homeViewModel!!.cardProfileHeader.role.get())
+        assertEquals(infoCardResponse.instagram, homeViewModel!!.cardProfileHeader.instagram.value)
+        assertEquals(infoCardResponse.google, homeViewModel!!.cardProfileHeader.google.value)
+        assertEquals(infoCardResponse.twitter, homeViewModel!!.cardProfileHeader.twitter.value)
+        assertEquals(infoCardResponse.linkedin, homeViewModel!!.cardProfileHeader.linkedIn.value)
+        assertEquals(infoCardResponse.name, homeViewModel!!.cardProfileHeader.name.value)
+        assertEquals(infoCardResponse.role?.sv, homeViewModel!!.cardProfileHeader.role.value)
     }
 
     @Test

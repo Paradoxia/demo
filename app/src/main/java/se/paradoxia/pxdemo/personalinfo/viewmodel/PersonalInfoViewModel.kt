@@ -1,5 +1,6 @@
 package se.paradoxia.pxdemo.personalinfo.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableField
@@ -65,7 +66,7 @@ class PersonalInfoViewModel @Inject constructor(
 
     class CardPersonalInfo {
 
-        val title = ObservableField<String>()
+        val title = MutableLiveData<String>()
         val fieldsAndValues = ObservableArrayList<PersonalInfoValue>()
 
         class PersonalInfoValue(
@@ -94,12 +95,12 @@ class PersonalInfoViewModel @Inject constructor(
                 val fieldName = fieldNames[displayedField] as String?
                 fieldsAndValues.add(
                     PersonalInfoValue(
-                         fieldName, fieldValues[displayedField] as String?
+                        fieldName, fieldValues[displayedField] as String?
                     )
                 )
             }
 
-            title.set(values.personalInfoFields?.piTitle)
+            title.value = values.personalInfoFields?.piTitle
 
         }
 
@@ -128,12 +129,12 @@ class PersonalInfoViewModel @Inject constructor(
 
     class CardLanguage {
 
-        val languageFieldLangTitle = ObservableField<String>()
+        val languageFieldLangTitle = MutableLiveData<String>()
         val languages = mutableListOf<LanguageValue>()
 
         class LanguageValue {
-            val languageTitle = ObservableField<String>()
-            val languageValue = ObservableField<Int>()
+            val languageTitle = MutableLiveData<String>()
+            val languageValue = MutableLiveData<Int>()
         }
 
     }

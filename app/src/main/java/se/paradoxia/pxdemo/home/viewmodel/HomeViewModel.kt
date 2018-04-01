@@ -1,7 +1,7 @@
 package se.paradoxia.pxdemo.home.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableField
 import android.view.View
 import com.gojuno.koptional.Optional
 import io.reactivex.disposables.CompositeDisposable
@@ -121,48 +121,54 @@ class HomeViewModel @Inject constructor(
     )
 
     class CardProfileHeader(val homeViewModel: HomeViewModel) {
-        val downloadFile = ObservableField<String>()
-        val downloadText = ObservableField<String>()
-        val facebook = ObservableField<String>()
-        val instagram = ObservableField<String>()
-        val google = ObservableField<String>()
-        val twitter = ObservableField<String>()
-        val linkedin = ObservableField<String>()
-        val name = ObservableField<String>()
-        val profileImage = ObservableField<String>()
-        val role = ObservableField<String>()
+        val downloadFile = MutableLiveData<String>()
+        val downloadText = MutableLiveData<String>()
+        val facebook = MutableLiveData<String>()
+        val instagram = MutableLiveData<String>()
+        val google = MutableLiveData<String>()
+        val twitter = MutableLiveData<String>()
+        val linkedIn = MutableLiveData<String>()
+        val name = MutableLiveData<String>()
+        val profileImage = MutableLiveData<String>()
+        val role = MutableLiveData<String>()
 
         /**
          * Setting profile image using url from resources
          */
         fun init(profileImageResourceUri: String) {
-            profileImage.set(profileImageResourceUri)
+            profileImage.value = profileImageResourceUri
         }
 
         fun update(language: String, infoCardResponse: InfoCardResponse) {
-            downloadFile.set(if (language == "en") BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.en else BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.sv)
-            downloadText.set(if (language == "en") infoCardResponse.downloadText?.en else infoCardResponse.downloadText?.sv)
-            facebook.set(BuildConfig.FACEBOOK_EXTERNAL_URL + infoCardResponse.facebook)
-            instagram.set(infoCardResponse.instagram)
-            google.set(infoCardResponse.google)
-            twitter.set(infoCardResponse.twitter)
-            linkedin.set(infoCardResponse.linkedin)
-            name.set(infoCardResponse.name)
-            profileImage.set(BuildConfig.IMAGE_BASE_URL + infoCardResponse.profileImage?.x2)
-            role.set(if (language == "en") infoCardResponse.role?.en else infoCardResponse.role?.sv)
+            downloadFile.value = if (language == "en") BuildConfig.FILE_BASE_URL + infoCardResponse
+                .downloadFile?.en else BuildConfig.FILE_BASE_URL + infoCardResponse.downloadFile?.sv
+            downloadText.value = if (language == "en") infoCardResponse.downloadText?.en else
+                infoCardResponse.downloadText?.sv
+            facebook.value = BuildConfig.FACEBOOK_EXTERNAL_URL + infoCardResponse.facebook
+            instagram.value = infoCardResponse.instagram
+            google.value = infoCardResponse.google
+            twitter.value = infoCardResponse.twitter
+            linkedIn.value = infoCardResponse.linkedin
+            name.value = infoCardResponse.name
+            profileImage.value = BuildConfig.IMAGE_BASE_URL + infoCardResponse.profileImage?.x2
+            role.value = if (language == "en") infoCardResponse.role?.en else infoCardResponse
+                .role?.sv
         }
 
     }
 
     class CardAboutMe {
-        val aboutMeTitle = ObservableField<String>()
-        val aboutMeHeadline = ObservableField<String>()
-        val aboutMeText = ObservableField<String>()
+        val aboutMeTitle = MutableLiveData<String>()
+        val aboutMeHeadline = MutableLiveData<String>()
+        val aboutMeText = MutableLiveData<String>()
 
         fun update(language: String, aboutMeResponse: AboutMeResponse) {
-            aboutMeText.set(if (language == "en") aboutMeResponse.aboutMeEn?.text else aboutMeResponse.aboutMeSv?.text)
-            aboutMeTitle.set(if (language == "en") aboutMeResponse.aboutMeEn?.title else aboutMeResponse.aboutMeSv?.title)
-            aboutMeHeadline.set(if (language == "en") aboutMeResponse.aboutMeEn?.headline else aboutMeResponse.aboutMeSv?.headline)
+            aboutMeText.value = if (language == "en") aboutMeResponse.aboutMeEn?.text else
+                aboutMeResponse.aboutMeSv?.text
+            aboutMeTitle.value = if (language == "en") aboutMeResponse.aboutMeEn?.title else
+                aboutMeResponse.aboutMeSv?.title
+            aboutMeHeadline.value = if (language == "en") aboutMeResponse.aboutMeEn?.headline else
+                aboutMeResponse.aboutMeSv?.headline
         }
     }
 

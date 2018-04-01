@@ -1,5 +1,7 @@
 package se.paradoxia.pxdemo.util
 
+import android.arch.lifecycle.LifecycleOwner
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
@@ -23,13 +25,18 @@ class ViewTypeMapper(
 
 }
 
-class FlexibleRecyclerViewAdapter(private val viewTypeMappers: List<ViewTypeMapper>, private val items: List<Any>) :
+class FlexibleRecyclerViewAdapter(
+    private val viewTypeMappers: List<ViewTypeMapper>,
+    private val items: List<Any>
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
 
         val inflater = LayoutInflater.from(parent!!.context)
-
+        context = parent.context
 
         //val inflater = LayoutInflater.from(parent!!.rootView.context)
         val viewTypeMapper = viewTypeMappers.find { it.viewType == viewType }
@@ -46,7 +53,7 @@ class FlexibleRecyclerViewAdapter(private val viewTypeMappers: List<ViewTypeMapp
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as BindingTemplateViewHolder).bind(items[position])
+        (holder as BindingTemplateViewHolder).bind(items[position], context as LifecycleOwner)
     }
 
     override fun getItemViewType(position: Int): Int {
