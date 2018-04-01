@@ -123,7 +123,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // DataBinding
-    kapt 'com.android.databinding:compiler:3.0.1'
+    kapt 'com.android.databinding:compiler:3.1.0'
 
     // LeakCanary
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
@@ -136,8 +136,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // ViewModel and LiveData
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    kapt "android.arch.lifecycle:compiler:1.0.0"
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    kapt "android.arch.lifecycle:compiler:1.1.0"
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true

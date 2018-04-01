@@ -7,8 +7,8 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
+import se.paradoxia.pxdemo.home.view.HomeView
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
-import se.paradoxia.pxdemo.personalinfo.view.PersonalInfoView
 import se.paradoxia.pxdemo.util.AllOpen
 
 
@@ -53,8 +53,8 @@ class MainActivity : BaseActivity(), PermissionResultReceiver, AppActionReceiver
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun getDefaultFragment(): Fragment {
-        //return HomeView.newInstance()
-        return PersonalInfoView.newInstance()
+        return HomeView.newInstance()
+        //return PersonalInfoView.newInstance()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
