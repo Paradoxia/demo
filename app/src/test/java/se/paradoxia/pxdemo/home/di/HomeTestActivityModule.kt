@@ -1,6 +1,8 @@
 package se.paradoxia.pxdemo.home.di
 
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -8,6 +10,7 @@ import org.mockito.Mockito
 import se.paradoxia.pxdemo.MainActivity
 import se.paradoxia.pxdemo.di.ActivityContext
 import se.paradoxia.pxdemo.di.FragmentModule
+import se.paradoxia.pxdemo.di.ViewModelFactory
 import se.paradoxia.pxdemo.home.view.HomeViewLogic
 import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.service.PermissionService
@@ -22,6 +25,9 @@ abstract class HomeTestActivityModule {
     @ActivityContext
     @ContributesAndroidInjector(modules = [StubMainActivityModule::class, FragmentModule::class])
     abstract fun bindStubMainActivity(): MainActivity
+
+    @Binds
+    abstract fun bindViewModelFactory(factory: TestViewModelFactory): ViewModelProvider.Factory
 
     @Module
     object StubMainActivityModule {

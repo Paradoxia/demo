@@ -1,10 +1,17 @@
 package se.paradoxia.pxdemo.home.di
 
 import android.app.Application
+import android.arch.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
 import org.mockito.Mockito
+import se.paradoxia.pxdemo.di.RepositoryModule
+import se.paradoxia.pxdemo.di.UtilModule
+import se.paradoxia.pxdemo.di.ViewModelKey
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
+import se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel
 import se.paradoxia.pxdemo.provider.RawResourceProvider
 import se.paradoxia.pxdemo.provider.SchedulerProvider
 import se.paradoxia.pxdemo.provider.SharedPreferencesProvider
@@ -14,7 +21,7 @@ import javax.inject.Singleton
 /**
  * Created by mikael on 2018-01-31.
  */
-@Module
+@Module(includes = [TestViewModelModule::class])
 class HomeTestAppModule(private val customContentService: ContentService, private val customPermissionService: PermissionService) {
 
     @Provides
@@ -45,15 +52,8 @@ class HomeTestAppModule(private val customContentService: ContentService, privat
 
     @Provides
     @Singleton
-    fun homeViewModel(contentService: ContentService, sharedPreferencesService: SharedPreferencesService): HomeViewModel {
-        return Mockito.spy(HomeViewModel(contentService, sharedPreferencesService))
-    }
-
-    @Provides
-    @Singleton
     fun providePermissionService(): PermissionService {
         return customPermissionService
     }
-
 
 }
