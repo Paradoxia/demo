@@ -1,6 +1,8 @@
 package se.paradoxia.pxdemo.di
 
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -10,11 +12,14 @@ import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.service.PermissionService
 
 @Module
-abstract class ActivityModule {
+internal abstract class ActivityModule {
 
     @ActivityContext
     @ContributesAndroidInjector(modules = [MainActivityModule::class, FragmentModule::class])
     abstract fun bindMainActivity(): MainActivity
+
+    @Binds
+    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Module
     object MainActivityModule {

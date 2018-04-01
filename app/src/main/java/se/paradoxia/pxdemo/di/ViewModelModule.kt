@@ -1,31 +1,23 @@
 package se.paradoxia.pxdemo.di
 
+import android.arch.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.multibindings.IntoMap
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
 import se.paradoxia.pxdemo.personalinfo.viewmodel.PersonalInfoViewModel
-import se.paradoxia.pxdemo.service.ContentService
-import se.paradoxia.pxdemo.service.SharedPreferencesService
-import se.paradoxia.pxdemo.util.AllOpen
 
-@AllOpen
 @Module
-class ViewModelModule {
+internal abstract class ViewModelModule {
 
-    @Provides
-    fun provideHomeViewModel(
-        contentService: ContentService,
-        sharedPreferencesService: SharedPreferencesService
-    ): HomeViewModel {
-        return HomeViewModel(contentService, sharedPreferencesService)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
 
-    @Provides
-    fun providePersonalInfoModel(
-        contentService: ContentService,
-        sharedPreferencesService: SharedPreferencesService
-    ): PersonalInfoViewModel {
-        return PersonalInfoViewModel(contentService, sharedPreferencesService)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(PersonalInfoViewModel::class)
+    abstract fun bindPersonalInfoViewModel(viewModel: PersonalInfoViewModel): ViewModel
 
 }

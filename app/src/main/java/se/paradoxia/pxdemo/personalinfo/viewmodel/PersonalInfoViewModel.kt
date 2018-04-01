@@ -48,6 +48,12 @@ class PersonalInfoViewModel @Inject constructor(
         loadContent()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        Timber.d("onCleared called")
+        disposables.clear() // Killing off any active observable
+    }
+
     internal fun loadContent() {
         language = sharedPreferencesService.getString(
             "language",

@@ -1,8 +1,11 @@
 package se.paradoxia.pxdemo.home.view
 
 import android.app.Fragment
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +28,10 @@ import javax.inject.Inject
 @AllOpen
 class HomeView : Fragment(), PermissionResultReceiver {
 
-    @Inject
     lateinit var homeViewModel: HomeViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var homeViewLogic: HomeViewLogic
@@ -48,11 +53,15 @@ class HomeView : Fragment(), PermissionResultReceiver {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return activity.layoutInflater.inflate(R.layout.fragment_home, container, false)
+        return activity!!.layoutInflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel = ViewModelProviders.of(activity as FragmentActivity, viewModelFactory)
+            .get(HomeViewModel::class.java)
+
         val applicationId = BuildConfig.APPLICATION_ID
         val profileImageResourceUri =
             Uri.parse("android.resource://$applicationId/" + R.drawable.profile_image)

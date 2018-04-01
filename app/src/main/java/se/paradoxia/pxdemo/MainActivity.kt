@@ -9,6 +9,7 @@ import android.support.annotation.VisibleForTesting
 import android.support.design.widget.BottomNavigationView
 import se.paradoxia.pxdemo.home.view.HomeView
 import se.paradoxia.pxdemo.permission.PermissionResultReceiver
+import se.paradoxia.pxdemo.personalinfo.view.PersonalInfoView
 import se.paradoxia.pxdemo.util.AllOpen
 
 
