@@ -9,7 +9,7 @@ android {
 }
 
 jacoco {
-    toolVersion = "0.7.9"
+    toolVersion = "$jacoco_version"
     reportsDir = file("$buildDir/jacocoTestReport")
 }
 

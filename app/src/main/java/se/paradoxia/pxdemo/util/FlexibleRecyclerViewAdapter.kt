@@ -33,18 +33,18 @@ class FlexibleRecyclerViewAdapter(
 
     private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        val inflater = LayoutInflater.from(parent!!.context)
+        val inflater = LayoutInflater.from(parent.context)
         context = parent.context
 
-        //val inflater = LayoutInflater.from(parent!!.rootView.context)
         val viewTypeMapper = viewTypeMappers.find { it.viewType == viewType }
         return if (viewTypeMapper != null) {
             viewTypeMapper.getViewHolder(inflater, parent)
         } else {
+            val exception = RuntimeException("Unknown viewType $viewType")
             Timber.w(RuntimeException("Unknown viewType $viewType"))
-            null
+            throw exception
         }
     }
 

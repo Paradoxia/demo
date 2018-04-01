@@ -3,6 +3,9 @@
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.realm_version = '5.0.0'
+    ext.jacoco_version = '0.8.1'
+    ext.dagger_version = '2.15'
+    ext.android_supportlib_version = '27.1.0'
     repositories {
         google()
         jcenter()
@@ -14,10 +17,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath "io.realm:realm-gradle-plugin:$realm_version"
-        classpath 'io.fabric.tools:gradle:1.25.1'
-
-        //noinspection GradleDependency
-        classpath 'org.jacoco:org.jacoco.core:0.7.9' // So we can use Jacoco toolVersion = 0.7.9
+        classpath 'io.fabric.tools:gradle:1.+'
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
     }
 }
 

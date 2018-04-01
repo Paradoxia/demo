@@ -103,6 +103,7 @@ inline fun <reified E> fetchContentLocallyAndExternally(
     }
 
     val fetchFromServer = restApiMethod
+        .observeOn(schedulerService.mainThread())
         .subscribeOn(schedulerService.io())
         .flatMap { response: RealmObject ->
             Timber.d("Fetched \"[${response.javaClass.simpleName}]\" content from server")

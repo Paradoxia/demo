@@ -85,9 +85,7 @@ class HomeViewLogicImpl @Inject constructor(@ActivityContext val context: Contex
             context as AppCompatActivity,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             permissionViewModel
-        ).let {
-            it ?: false
-        }
+        )
         if (permitted) {
             download(url)
         }

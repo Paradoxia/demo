@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
 
 apply plugin: "kotlin-allopen"
 
@@ -36,6 +36,8 @@ android {
         buildConfigField("String", "FACEBOOK_EXTERNAL_URL", "\"${FBExternalUrl}\"")
 
         multiDexEnabled true
+
+
     }
     buildTypes {
         release {
@@ -84,63 +86,60 @@ kapt {
     useBuildCache = true
 }
 
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // DataBinding
+    kapt "com.android.databinding:compiler:3.1.0"
+
     // So we can emit "null" in observables using "Optional"
-    implementation 'com.gojuno.koptional:koptional-rxjava2-extensions:1.3.0'
+    implementation "com.gojuno.koptional:koptional-rxjava2-extensions:1.3.0"
 
     // Timber for better logging
-    implementation 'com.jakewharton.timber:timber:4.6.0'
+    implementation "com.jakewharton.timber:timber:4.7.0"
 
     // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:retrofit:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
 
     // RecyclerView
-    implementation 'com.android.support:cardview-v7:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation "com.android.support:cardview-v7:$android_supportlib_version"
+    implementation "com.android.support:recyclerview-v7:$android_supportlib_version"
 
     // Dagger
-    implementation 'com.google.dagger:dagger-android:2.14.1'
-    implementation 'com.google.dagger:dagger-android-support:2.14.1'
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
     // if you use the support libraries
-    kapt 'com.google.dagger:dagger-android-processor:2.14.1'
-    kapt 'com.google.dagger:dagger-compiler:2.14.1'
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation "io.reactivex.rxjava2:rxjava:2.1.12"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
 
     // Picasso
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation "com.squareup.picasso:picasso:2.5.0"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    // DataBinding
-    kapt 'com.android.databinding:compiler:3.1.0'
-
     // LeakCanary
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5.4"
 
     // Support
-    implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation "com.android.support:support-core-utils:27.0.2"
-    implementation 'com.android.support:design:27.0.2'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:appcompat-v7:$android_supportlib_version"
+    implementation "com.android.support:support-core-utils:$android_supportlib_version"
+    implementation "com.android.support:design:$android_supportlib_version"
+    implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.1.0"
     kapt "android.arch.lifecycle:compiler:1.1.0"
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    implementation("com.crashlytics.sdk.android:crashlytics:2.9.1@aar") {
         transitive = true
     }
-
 
 }
