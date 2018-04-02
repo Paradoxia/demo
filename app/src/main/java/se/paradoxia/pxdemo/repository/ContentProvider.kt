@@ -8,6 +8,7 @@ import io.reactivex.Observable
 import io.realm.RealmObject
 import se.paradoxia.pxdemo.R
 import se.paradoxia.pxdemo.api.RestApi
+import se.paradoxia.pxdemo.di.RetryWithDelay
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
 import se.paradoxia.pxdemo.personalinfo.model.PersonalInfoResponse
@@ -21,6 +22,9 @@ import javax.inject.Inject
 /**
  * Created by mikael on 2018-01-25.
  */
+
+const val NUM_OF_SERVER_RETRIES = 3
+const val DELAY_MS_BETWEEN_SERVER_RETRIES = 3000L
 
 class ContentProvider @Inject constructor(
     private val restApi: RestApi,
@@ -39,7 +43,9 @@ class ContentProvider @Inject constructor(
             rawResourceService,
             R.raw.infocardresponse,
             InfoCardResponse::class.java as Class<RealmObject>,
-            restApi.getInfoCard() as Observable<RealmObject>
+            restApi.getInfoCard() as Observable<RealmObject>,
+            NUM_OF_SERVER_RETRIES,
+            DELAY_MS_BETWEEN_SERVER_RETRIES
         )
     }
 
@@ -53,7 +59,9 @@ class ContentProvider @Inject constructor(
             rawResourceService,
             R.raw.aboutmeresponse,
             AboutMeResponse::class.java as Class<RealmObject>,
-            restApi.getAboutMe() as Observable<RealmObject>
+            restApi.getAboutMe() as Observable<RealmObject>,
+            NUM_OF_SERVER_RETRIES,
+            DELAY_MS_BETWEEN_SERVER_RETRIES
         )
     }
 
@@ -68,7 +76,9 @@ class ContentProvider @Inject constructor(
             rawResourceService,
             R.raw.personalinforesponse,
             PersonalInfoResponse::class.java as Class<RealmObject>,
-            restApi.getPersonalInfo() as Observable<RealmObject>
+            restApi.getPersonalInfo() as Observable<RealmObject>,
+            NUM_OF_SERVER_RETRIES,
+            DELAY_MS_BETWEEN_SERVER_RETRIES
         )
 
     }
@@ -86,7 +96,9 @@ inline fun <reified E> fetchContentLocallyAndExternally(
     rawResourceService: RawResourceService,
     @IdRes resId: Int,
     responseClass: Class<RealmObject>,
-    restApiMethod: Observable<RealmObject>
+    restApiMethod: Observable<RealmObject>,
+    maxRetries: Int,
+    delayMsBetweenRetry: Long
 ): E {
 
     val fetchFromClient = Observable.create<Any> { emitter ->
@@ -105,6 +117,7 @@ inline fun <reified E> fetchContentLocallyAndExternally(
     val fetchFromServer = restApiMethod
         .observeOn(schedulerService.mainThread())
         .subscribeOn(schedulerService.io())
+        .retryWhen(RetryWithDelay(maxRetries, delayMsBetweenRetry))
         .flatMap { response: RealmObject ->
             Timber.d("Fetched \"[${response.javaClass.simpleName}]\" content from server")
             realmSaver(response)

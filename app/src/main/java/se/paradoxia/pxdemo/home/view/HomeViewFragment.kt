@@ -26,7 +26,7 @@ import javax.inject.Inject
  * Created by mikael on 2018-01-24.
  */
 @AllOpen
-class HomeView : Fragment(), PermissionResultReceiver {
+class HomeViewFragment : Fragment(), PermissionResultReceiver {
 
     lateinit var homeViewModel: HomeViewModel
 
@@ -38,7 +38,7 @@ class HomeView : Fragment(), PermissionResultReceiver {
 
     companion object {
         fun newInstance(): Fragment {
-            return HomeView()
+            return HomeViewFragment()
         }
     }
 

@@ -35,7 +35,7 @@ import se.paradoxia.pxdemo.home.di.HomeTestAppComponent
 import se.paradoxia.pxdemo.home.di.HomeTestAppModule
 import se.paradoxia.pxdemo.home.model.aboutme.InfoCardResponse
 import se.paradoxia.pxdemo.home.model.infocard.AboutMeResponse
-import se.paradoxia.pxdemo.home.view.HomeView
+import se.paradoxia.pxdemo.home.view.HomeViewFragment
 import se.paradoxia.pxdemo.home.view.HomeViewLogic
 import se.paradoxia.pxdemo.home.view.HomeViewLogicImpl
 import se.paradoxia.pxdemo.home.viewmodel.HomeViewModel
@@ -47,6 +47,8 @@ import se.paradoxia.pxdemo.util.AllOpen
 import se.paradoxia.pxdemo.util.Crc16
 import kotlin.test.assertEquals
 
+const val PROFILE_HEADER_POSITION = 0
+const val ABOUT_ME_POSITION = 1
 
 // Due to problem with createConfigurationContext throwing exception with
 // any Robolectric version below N (24), sdk is set to "N"
@@ -58,7 +60,7 @@ import kotlin.test.assertEquals
     sdk = [N],
     qualifiers = "w360dp-h640dp-xhdpi"
 )
-class HomeViewTest : RobolectricTestBase() {
+class HomeViewFragmentTest : RobolectricTestBase() {
 
     val aboutMeResponse: AboutMeResponse = rawResourceToInstance("aboutmeresponse.json")
     val infoCardResponse: InfoCardResponse = rawResourceToInstance("infocardresponse.json")
@@ -103,7 +105,7 @@ class HomeViewTest : RobolectricTestBase() {
         }
 
         override fun permissionToRequestCode(permission: String): Int {
-            return HomeViewTest.permissionToRequestCode(permission)
+            return HomeViewFragmentTest.permissionToRequestCode(permission)
         }
     }
 
@@ -135,15 +137,15 @@ class HomeViewTest : RobolectricTestBase() {
     }
 
     private fun extractHomeViewModel(stubMainActivity: MainActivity?): HomeViewModel {
-        return (stubMainActivity!!.activeFragment as HomeView).homeViewModel
+        return (stubMainActivity!!.activeFragment as HomeViewFragment).homeViewModel
     }
 
     private fun extractHomeViewLogic(stubMainActivity: MainActivity?): HomeViewLogic {
-        return (stubMainActivity!!.activeFragment as HomeView).homeViewLogic
+        return (stubMainActivity!!.activeFragment as HomeViewFragment).homeViewLogic
     }
 
     private fun extractPermissionService(stubMainActivity: MainActivity?): PermissionService {
-        return ((stubMainActivity!!.activeFragment as HomeView).homeViewLogic as HomeViewLogicImpl).permissionService
+        return ((stubMainActivity!!.activeFragment as HomeViewFragment).homeViewLogic as HomeViewLogicImpl).permissionService
     }
 
     @Test
@@ -165,7 +167,7 @@ class HomeViewTest : RobolectricTestBase() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
         val profileHeaderName =
             viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderName)
                 .text.toString()
@@ -188,8 +190,8 @@ class HomeViewTest : RobolectricTestBase() {
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
         // Scroll to "second" card
-        recyclerView.scrollToPosition(1)
-        val viewHolderAboutMe = recyclerView.findViewHolderForAdapterPosition(1)
+        recyclerView.scrollToPosition(ABOUT_ME_POSITION)
+        val viewHolderAboutMe = recyclerView.findViewHolderForAdapterPosition(ABOUT_ME_POSITION)
 
         val aboutMeText =
             viewHolderAboutMe.itemView.findViewById<TextView>(R.id.tvAboutMeText).text.toString()
@@ -211,8 +213,8 @@ class HomeViewTest : RobolectricTestBase() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
 
-        // Scroll to "second" card
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        // Scroll to "first" card
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
         val profileHeaderName =
             viewHolderProfileHeader.itemView.findViewById<TextView>(R.id.tvProfileHeaderName)
                 .text.toString()
@@ -243,8 +245,8 @@ class HomeViewTest : RobolectricTestBase() {
         mainActivity!!.findViewById<ImageView>(R.id.ivSelectSwedish).callOnClick()
 
         // Scroll to "second" card
-        recyclerView.scrollToPosition(1)
-        val viewHolderAboutMe = recyclerView.findViewHolderForAdapterPosition(1)
+        recyclerView.scrollToPosition(ABOUT_ME_POSITION)
+        val viewHolderAboutMe = recyclerView.findViewHolderForAdapterPosition(ABOUT_ME_POSITION)
 
         val aboutMeText =
             viewHolderAboutMe.itemView.findViewById<TextView>(R.id.tvAboutMeText).text.toString()
@@ -264,7 +266,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerPermissionCheckAndDownloadWhen() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
         val downloadBtn =
             viewHolderProfileHeader.itemView.findViewById<View>(R.id.btProfileHeaderDownload)
         downloadBtn.callOnClick()
@@ -302,7 +304,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerOpenExternalSiteWhenFacebookButtonIsPressed() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
 
         val faceBookUrl =
             pressViewButtonAndCaptureUrlFromViewTag(R.id.ivFacebook, viewHolderProfileHeader)
@@ -321,7 +323,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerOpenExternalSiteWhenInstagramIsPressed() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
 
         val instagramUrl = pressViewButtonAndCaptureUrlFromViewTag(
             R.id.ivInstagram,
@@ -343,7 +345,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerOpenExternalSiteWhenGooglePlusIsPressed() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
 
         val googlePlusUrl = pressViewButtonAndCaptureUrlFromViewTag(
             R.id.ivGooglePlus,
@@ -365,7 +367,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerOpenExternalSiteWhenLinkedInIsPressed() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
 
         val linkedInUrl = pressViewButtonAndCaptureUrlFromViewTag(
             R.id.ivLinkedIn,
@@ -386,7 +388,7 @@ class HomeViewTest : RobolectricTestBase() {
     fun shouldTriggerOpenExternalSiteWhenTwitterIsPressed() {
 
         val recyclerView: RecyclerView = mainActivity!!.findViewById(R.id.recViewHome)
-        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(0)
+        val viewHolderProfileHeader = recyclerView.findViewHolderForAdapterPosition(PROFILE_HEADER_POSITION)
 
         val twitterUrl = pressViewButtonAndCaptureUrlFromViewTag(
             R.id.ivTwitter,
